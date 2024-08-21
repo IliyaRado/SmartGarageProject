@@ -1,23 +1,51 @@
 package com.example.smartgarage.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+@Entity
+@Table(name = "vehicles")
 public class Vehicle {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "license_plate")
+    @Pattern(regexp = "^[A-Z]{1,2}[0-9]{4}[A-Z]{1,2}$", message = "Invalid Bulgarian license plate")
     private String licensePlate;
+
+    @Column(name = "vin")
+    @Size(min = 17, max = 17, message = "VIN must be 17 characters long")
     private String vin;
+
+    @Column(name = "year_of_creation")
+    @Min(value = 1886, message = "Year of creation must be greater than 1886")
     private String yearOfCreation;
+
+    @Column(name = "model")
+    @Size(min = 2, max = 50, message = "Model must be between 2 and 50 characters")
     private String model;
+
+    @Column(name = "brand")
+    @Size(min = 2, max = 50, message = "Brand must be between 2 and 50 characters")
     private String brand;
-    private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Vehicle() {
     }
-    public Vehicle(String licensePlate, String vin, String yearOfCreation, String model, String brand, String userId) {
+    public Vehicle(String licensePlate, String vin, String yearOfCreation, String model, String brand, User user) {
         this.licensePlate = licensePlate;
         this.vin = vin;
         this.yearOfCreation = yearOfCreation;
         this.model = model;
         this.brand=brand;
-        this.userId = userId;
+        this.user = user;
     }
 
     public String getLicensePlate() {
@@ -52,12 +80,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 
