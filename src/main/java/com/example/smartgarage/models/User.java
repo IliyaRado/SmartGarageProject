@@ -24,7 +24,7 @@ public class User {
     @Email(message = "Email should be valid")
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone_number")
     @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
     private String phone;
 
@@ -34,7 +34,8 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, String email, String phone, String role, String employee) {
+    public User(int id, String username, String password, String email,
+                String phone, String role, String employee, boolean isAdmin) {
         this.username = username;
         this.password = password;
         this.email = email;
