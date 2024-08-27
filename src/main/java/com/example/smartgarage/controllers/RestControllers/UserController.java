@@ -32,13 +32,11 @@ public class UserController {
         this.authenticationHelper = authenticationHelper;
     }
 
-    // Get all users
     @GetMapping
     public List<User> findAll() {
         return userService.getUsers();
     }
 
-    // Get user by ID
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
         try {

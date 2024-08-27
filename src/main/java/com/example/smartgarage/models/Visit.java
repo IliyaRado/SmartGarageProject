@@ -25,10 +25,6 @@ public class Visit {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private String status;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -45,9 +41,4 @@ public class Visit {
     )
     private List<Service> services;
 
-    public enum Status{
-        PENDING,
-        APPROVED,
-        REJECTED
-    }
 }

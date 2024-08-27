@@ -18,11 +18,6 @@ public interface UserService {
 
     User update(User user, User currentUser);
 
-    void blockUser(int userId, User currentUser);
-
-    void unblockUser(int userId, User currentUser);
-
-
     User makeEmployee(int userId);
 
     User removeEmployee(int userId);

@@ -18,8 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     void delete(int id);
 
-    User update(User user);
-
     User makeEmployee(int userId);
 
     User removeEmployee(int userId);

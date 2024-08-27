@@ -27,23 +27,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getById(int id) {
-        return userRepository.getById(id);
-    }
-
-    @Override
-    public User create(User user) {
-        boolean duplicateExists = true;
-
-        try {
-            userRepository.getByUsername(user.getUsername());
-        } catch (EntityNotFoundException e) {
-            duplicateExists = false;
-        }
-
-        if (duplicateExists) {
-            throw new DuplicateEntityException("User", "username", user.getUsername());
-        }
-        return userRepository.create(user);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -52,26 +36,32 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User create(User user) {
+
+        return userRepository.save(user);
+    }
+
+    @Override
     public void delete(int id, User user) {
-//        User existingUser = userRepository.getById(id);
-//        if (!(user.isAdmin() || existingUser.equals(user))) {
-//            throw new AuthorizationException("Only admins or the user themselves can delete the user.");
-//        }
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
+        if (!(existingUser.equals(user))) {
+            throw new AuthorizationException("Only the user themselves can delete the user.");
+        }
+        userRepository.deleteById(id);
     }
 
     @Override
     public User update(User user, User currentUser) {
-        return null;
-    }
-
-    @Override
-    public void blockUser(int userId, User currentUser) {
-
-    }
-
-    @Override
-    public void unblockUser(int userId, User currentUser) {
-
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
+        if (!(existingUser.equals(currentUser))) {
+            throw new AuthorizationException("Only admins or the user themselves can update the user.");
+        }
+        existingUser.setUsername(user.getUsername());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPhone(user.getPhone());
+        existingUser.setRole(user.getRole());
+        return userRepository.save(existingUser);
     }
 
     @Override
@@ -83,4 +73,5 @@ public class UserServiceImpl implements UserService{
     public User removeEmployee(int userId) {
         return null;
     }
+
 }
