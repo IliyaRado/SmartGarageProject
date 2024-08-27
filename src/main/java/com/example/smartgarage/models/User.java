@@ -21,27 +21,27 @@ public class User {
     private String password;
 
     @Column(name = "email")
-    @Email(message = "Email should be valid")
     private String email;
 
     @Column(name = "phone_number")
     @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
     private String phone;
 
-    @Column(name = "employee")
-    private String employee;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public User() {
     }
 
     public User(int id, String username, String password, String email,
-                String phone, String employee, boolean isAdmin) {
+                String phone, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.employee = employee;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -76,11 +76,11 @@ public class User {
         this.phone = phone;
     }
 
-    public String getRole() {
-        return employee;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole(String role) {
-        this.employee = employee;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
