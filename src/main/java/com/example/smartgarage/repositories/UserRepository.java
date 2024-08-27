@@ -1,26 +1,21 @@
 package com.example.smartgarage.repositories;
 
 import com.example.smartgarage.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
-@Repository
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    List<User> getAll();
-
-    User getById(int id);
-
-    User getByUsername(String username);
-
-    User create(User user);
-
-    void delete(int id);
-
-    User makeEmployee(int userId);
-
-    User removeEmployee(int userId);
+//    List<User> findAll(Specification<User> filters, Pageable pageable);
+    Optional<User> findByEmail(String email);
+    Optional<User> findByPhoneNumber(String phoneNumber);
+    Optional<User> findByUsername(String username);
 
 
+//    Page<User> findAll(String usernameFilter, String emailFilter, String firstNameFilter, org.springframework.data.domain.Pageable pageable);
 }

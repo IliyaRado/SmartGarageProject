@@ -6,11 +6,14 @@ import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -19,59 +22,71 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
+//    @Override
+//    public Page<User> findAll(String usernameFilter, String emailFilter, String firstNameFilter, Pageable pageable) {
+//        return userRepository.findAll(usernameFilter, emailFilter, firstNameFilter, pageable);
+//    }
+
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.getAll();
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
     @Override
-    public User getById(int id) {
-        return userRepository.findById(id).orElse(null);
+    public User findUserById(int id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
     }
 
     @Override
-    public User getByUsername(String username) {
-        return userRepository.getByUsername(username);
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User", "email", email));
     }
 
     @Override
-    public User create(User user) {
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User", "username", username));
+    }
 
+    @Override
+    public User findUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new EntityNotFoundException("User", "phone number", phoneNumber));
+    }
+
+
+
+    @Override
+    public boolean authenticateUser(String rawPassword, String storeHashedPassword) {
+        return false;
+    }
+
+    @Override
+    public User createUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new DuplicateEntityException("User", "email", user.getEmail());
+        }
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new DuplicateEntityException("User", "username", user.getUsername());
+        }
         return userRepository.save(user);
     }
 
     @Override
-    public void delete(int id, User user) {
-        User existingUser = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
-        if (!(existingUser.equals(user))) {
-            throw new AuthorizationException("Only the user themselves can delete the user.");
+    public User updateUser(User user) {
+        if (!userRepository.existsById(user.getId())) {
+            throw new EntityNotFoundException("User", user.getId());
+        }
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User", id);
         }
         userRepository.deleteById(id);
     }
-
-    @Override
-    public User update(User user, User currentUser) {
-        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
-        if (!(existingUser.equals(currentUser))) {
-            throw new AuthorizationException("Only admins or the user themselves can update the user.");
-        }
-        existingUser.setUsername(user.getUsername());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setPhone(user.getPhone());
-        existingUser.setRole(user.getRole());
-        return userRepository.save(existingUser);
-    }
-
-    @Override
-    public User makeEmployee(int userId) {
-        return null;
-    }
-
-    @Override
-    public User removeEmployee(int userId) {
-        return null;
-    }
-
 }

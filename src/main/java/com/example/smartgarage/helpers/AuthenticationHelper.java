@@ -38,12 +38,12 @@ public class AuthenticationHelper {
             throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
         }
 
-        return userService.getByUsername(currentUsername);
+        return userService.findUserByUsername(currentUsername);
     }
 
     public User verifyAuthentication(String username, String password) {
         try {
-            User user = userService.getByUsername(username);
+            User user = userService.findUserByUsername(username);
             if (!user.getPassword().equals(password)) {
                 throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
             }

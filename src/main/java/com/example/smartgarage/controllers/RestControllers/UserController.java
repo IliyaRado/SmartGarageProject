@@ -6,6 +6,7 @@ import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "Users", description = "Operations for managing users")
 public class UserController {
 
     private final UserService userService;
@@ -25,7 +24,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     private final AuthenticationHelper authenticationHelper;
-
+    @Autowired
     public UserController(UserService userService, UserMapper userMapper, AuthenticationHelper authenticationHelper) {
         this.userService = userService;
         this.userMapper = userMapper;
@@ -33,14 +32,14 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> findAll() {
-        return userService.getUsers();
+    public List<User> getAllUsers() {
+        return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
+    public User getUserById(@PathVariable int id) {
         try {
-            return userService.getById(id);
+            return userService.findUserById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

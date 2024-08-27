@@ -5,6 +5,7 @@ import com.example.smartgarage.models.Vehicle;
 import com.example.smartgarage.services.UserService;
 import com.example.smartgarage.services.VehicleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,25 +22,9 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
     private final UserService userService;
-
+    @Autowired
     public VehicleController(VehicleService vehicleService, UserService userService) {
         this.vehicleService = vehicleService;
         this.userService = userService;
-    }
-
-    // Get all vehicles
-    @GetMapping
-    public List<Vehicle> findAll(){
-        return vehicleService.getVehicles();
-    }
-
-    // Get vehicle by ID
-    @GetMapping("/{id}")
-    public Vehicle get(@PathVariable int id) {
-        try {
-            return vehicleService.getVehicleById(id);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
     }
 }
