@@ -1,12 +1,14 @@
 package com.example.smartgarage.repositories;
 
 import com.example.smartgarage.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+@Repository
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-public interface UserRepository {
-
-    List<User> getUsers();
+    List<User> getAll();
 
     User getById(int id);
 

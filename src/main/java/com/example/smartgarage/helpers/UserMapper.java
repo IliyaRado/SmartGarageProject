@@ -19,7 +19,6 @@ public class UserMapper {
         user.setUsername(registerDto.getUsername());
         user.setPassword(registerDto.getPassword());
         user.setEmail(registerDto.getEmail());
-        user.setPhone(registerDto.getPhone());
 
         return user;
     }

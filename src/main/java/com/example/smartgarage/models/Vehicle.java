@@ -4,7 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "vehicles")
 public class Vehicle {
@@ -37,71 +43,4 @@ public class Vehicle {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Vehicle() {
-    }
-    public Vehicle(String licensePlate, String vin, String yearOfCreation, String model, String brand, User user) {
-        this.licensePlate = licensePlate;
-        this.vin = vin;
-        this.yearOfCreation = yearOfCreation;
-        this.model = model;
-        this.brand=brand;
-        this.user = user;
-    }
-
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
-    public String getVin() {
-        return vin;
-    }
-
-    public void setVin(String vin) {
-        this.vin = vin;
-    }
-
-    public String getYearOfCreation() {
-        return yearOfCreation;
-    }
-
-    public void setYearOfCreation(String yearOfCreation) {
-        this.yearOfCreation = yearOfCreation;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

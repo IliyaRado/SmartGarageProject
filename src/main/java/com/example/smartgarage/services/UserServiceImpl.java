@@ -5,14 +5,16 @@ import com.example.smartgarage.exceptions.DuplicateEntityException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
-
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -20,7 +22,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> getUsers() {
-        return userRepository.getUsers();
+        return userRepository.getAll();
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.example.smartgarage.models;
 
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RegisterDto extends LoginDto {
 
     @NotEmpty
@@ -12,28 +16,4 @@ public class RegisterDto extends LoginDto {
 
     @NotEmpty
     private String phoneNumber;
-
-    public @NotEmpty String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(@NotEmpty String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public @NotEmpty String getEmail() {
-        return email;
-    }
-
-    public void setEmail(@NotEmpty String email) {
-        this.email = email;
-    }
-
-    public @NotEmpty String getPhone() {
-        return phoneNumber;
-    }
-
-    public void setPhone(@NotEmpty String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 }

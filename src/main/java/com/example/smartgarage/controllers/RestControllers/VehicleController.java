@@ -1,10 +1,9 @@
 package com.example.smartgarage.controllers.RestControllers;
 
 import com.example.smartgarage.exceptions.EntityNotFoundException;
-import com.example.smartgarage.helpers.AuthenticationHelper;
-import com.example.smartgarage.helpers.UserMapper;
-import com.example.smartgarage.models.User;
+import com.example.smartgarage.models.Vehicle;
 import com.example.smartgarage.services.UserService;
+import com.example.smartgarage.services.VehicleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,33 +15,29 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
-@Tag(name = "Users", description = "Operations for managing users")
-public class UserController {
+@RequestMapping("/api/vehicles")
+@Tag(name = "Vehicles", description = "Operations for managing vehicles")
+public class VehicleController {
 
+    private final VehicleService vehicleService;
     private final UserService userService;
 
-    private final UserMapper userMapper;
-
-    private final AuthenticationHelper authenticationHelper;
-
-    public UserController(UserService userService, UserMapper userMapper, AuthenticationHelper authenticationHelper) {
+    public VehicleController(VehicleService vehicleService, UserService userService) {
+        this.vehicleService = vehicleService;
         this.userService = userService;
-        this.userMapper = userMapper;
-        this.authenticationHelper = authenticationHelper;
     }
 
-    // Get all users
+    // Get all vehicles
     @GetMapping
-    public List<User> findAll() {
-        return userService.getUsers();
+    public List<Vehicle> findAll(){
+        return vehicleService.getVehicles();
     }
 
-    // Get user by ID
+    // Get vehicle by ID
     @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
+    public Vehicle get(@PathVariable int id) {
         try {
-            return userService.getById(id);
+            return vehicleService.getVehicleById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
