@@ -12,10 +12,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 //    List<User> findAll(Specification<User> filters, Pageable pageable);
-    Optional<User> findByEmail(String email);
-    Optional<User> findByPhoneNumber(String phoneNumber);
-    Optional<User> findByUsername(String username);
-
+    User findById(int id);
+   /* User findByEmail(String email);
+    User findByPhoneNumber(String phoneNumber);
+    User findByUsername(String username);
+*/
 
 //    Page<User> findAll(String usernameFilter, String emailFilter, String firstNameFilter, org.springframework.data.domain.Pageable pageable);
 }

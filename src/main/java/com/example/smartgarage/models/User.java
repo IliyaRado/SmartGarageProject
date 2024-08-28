@@ -30,7 +30,7 @@ public class User {
 
     @Column(name = "phone_number")
     @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
-    private String phone;
+    private String phoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

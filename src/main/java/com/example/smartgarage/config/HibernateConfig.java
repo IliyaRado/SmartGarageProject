@@ -1,3 +1,4 @@
+/*
 package com.example.smartgarage.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,3 +53,4 @@ public class HibernateConfig {
         return hibernateProperties;
     }
 }
+*/

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,10 +36,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
+
+        User user = userRepository.findById(id);
+        if (user == null){
+            throw new EntityNotFoundException("User", id);
+        }
+        return user;
+
     }
 
-    @Override
+    /*@Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User", "email", email));
@@ -72,9 +79,9 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateEntityException("User", "username", user.getUsername());
         }
         return userRepository.save(user);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public User updateUser(User user) {
         if (!userRepository.existsById(user.getId())) {
             throw new EntityNotFoundException("User", user.getId());
@@ -88,5 +95,5 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User", id);
         }
         userRepository.deleteById(id);
-    }
+    }*/
 }

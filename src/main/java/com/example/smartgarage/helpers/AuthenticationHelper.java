@@ -20,7 +20,7 @@ public class AuthenticationHelper {
         this.userService = userService;
     }
 
-    public User tryGetUser(HttpHeaders headers) {
+    /*public User tryGetUser(HttpHeaders headers) {
         if (!headers.containsKey(AUTHORIZATION_HEADER_NAME)) {
             throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
         }
@@ -29,9 +29,9 @@ public class AuthenticationHelper {
         String username = getUsername(userInfo);
         String password = getPassword(userInfo);
         return verifyAuthentication(username, password);
-    }
+    }*/
 
-    public User tryGetCurrentUser(HttpSession session) {
+    /*public User tryGetCurrentUser(HttpSession session) {
         String currentUsername = (String) session.getAttribute("currentUser");
 
         if (currentUsername == null) {
@@ -39,9 +39,9 @@ public class AuthenticationHelper {
         }
 
         return userService.findUserByUsername(currentUsername);
-    }
+    }*/
 
-    public User verifyAuthentication(String username, String password) {
+    /*public User verifyAuthentication(String username, String password) {
         try {
             User user = userService.findUserByUsername(username);
             if (!user.getPassword().equals(password)) {
@@ -54,7 +54,7 @@ public class AuthenticationHelper {
         } catch (EntityNotFoundException e) {
             throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
         }
-    }
+    }*/
 
     private String getUsername(String userInfo) {
         int firstSpace = userInfo.indexOf(" ");

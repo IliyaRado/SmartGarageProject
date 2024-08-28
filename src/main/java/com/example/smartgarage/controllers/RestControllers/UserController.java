@@ -23,12 +23,12 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-    private final AuthenticationHelper authenticationHelper;
+
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper, AuthenticationHelper authenticationHelper) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.authenticationHelper = authenticationHelper;
+
     }
 
     @GetMapping
