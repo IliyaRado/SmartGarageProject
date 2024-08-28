@@ -1,4 +1,4 @@
-package com.example.smartgarage.models;
+package com.example.smartgarage.models.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

@@ -9,17 +9,14 @@ import java.util.List;
 
 public interface UserService {
 
-
-//    Page<User> findAll(String usernameFilter, String emailFilter, String firstNameFilter, Pageable pageable);
     List<User> getAll();
+    Page<User> findAll(String usernameFilter, String emailFilter, String phoneNumberFilter, Pageable pageable);
     User findUserById(int id);
-    /*User findUserByEmail(String email);
+    User findUserByEmail(String email);
     User findUserByUsername(String username);
     User findUserByPhoneNumber(String phoneNumber);
-    boolean authenticateUser(String rawPassword, String storeHashedPassword);
-
-    User createUser(User user);
-    User updateUser(User user);
-    void deleteUser(int id);*/
+    User create(User user);
+    User update(User user);
+    void delete(int id);
 
 }

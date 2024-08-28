@@ -3,35 +3,52 @@ package com.example.smartgarage.services;
 import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.exceptions.DuplicateEntityException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
+import com.example.smartgarage.models.Role;
 import com.example.smartgarage.models.User;
+import com.example.smartgarage.repositories.RoleRepository;
 import com.example.smartgarage.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.smartgarage.filters.UserSpecifications.*;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-
-//    @Override
-//    public Page<User> findAll(String usernameFilter, String emailFilter, String firstNameFilter, Pageable pageable) {
-//        return userRepository.findAll(usernameFilter, emailFilter, firstNameFilter, pageable);
-//    }
 
 
     @Override
     public List<User> getAll() {
+
         return userRepository.findAll();
+    }
+
+    @Override
+    public Page<User> findAll(String usernameFilter, String emailFilter, String phoneNumberFilter, Pageable pageable) {
+        Specification<User> filters = Specification.where(StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : username(usernameFilter))
+                .and(StringUtils.isEmptyOrWhitespace(emailFilter) ? null : email(emailFilter))
+                .and(StringUtils.isEmptyOrWhitespace(phoneNumberFilter) ? null : phoneNumber(phoneNumberFilter));
+        return userRepository.findAll(filters, pageable);
     }
 
     @Override
@@ -45,55 +62,76 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    /*@Override
+    @Override
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User", "email", email));
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new EntityNotFoundException("User", "email", email);
+        }
+        return user;
     }
 
     @Override
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User", "username", username));
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException("User", "username", username);
+        }
+        return user;
     }
 
     @Override
     public User findUserByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new EntityNotFoundException("User", "phone number", phoneNumber));
-    }
-
-
-
-    @Override
-    public boolean authenticateUser(String rawPassword, String storeHashedPassword) {
-        return false;
+        User user = userRepository.findByPhoneNumber(phoneNumber);
+        if (user == null) {
+            throw new EntityNotFoundException("User", "phone number", phoneNumber);
+        }
+        return user;
     }
 
     @Override
-    public User createUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+    public User create(User user) {
+        checkUsernameUnique(user);
+        checkEmailUnique(user);
+        Role role = roleRepository.findByType("CUSTOMER");
+        String rawPassword = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
+        user.setRole(role);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User update(User user) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepository.findByUsername(authentication.getName());
+        if (currentUser.getId() != user.getId()) {
+            throw new AuthorizationException("You are not authorized to update this user.");
+        }
+        if (!currentUser.getEmail().equals(user.getEmail()) || !currentUser.getUsername().equals(user.getUsername())) {
+            checkEmailUnique(user);
+            checkUsernameUnique(user);
+        }
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    public void delete(int id) {
+
+
+    }
+
+    private void checkEmailUnique(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new DuplicateEntityException("User", "email", user.getEmail());
         }
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new DuplicateEntityException("User", "username", user.getUsername());
-        }
-        return userRepository.save(user);
-    }*/
-
-   /* @Override
-    public User updateUser(User user) {
-        if (!userRepository.existsById(user.getId())) {
-            throw new EntityNotFoundException("User", user.getId());
-        }
-        return userRepository.save(user);
     }
 
-    @Override
-    public void deleteUser(int id) {
-        if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException("User", id);
+    private void checkUsernameUnique(User user) {
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            throw new DuplicateEntityException("User", "username", user.getUsername());
         }
-        userRepository.deleteById(id);
-    }*/
+    }
 }

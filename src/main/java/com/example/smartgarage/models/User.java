@@ -22,7 +22,6 @@ public class User {
     private String username;
 
     @Column(name = "password")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[+\\-*^]).{8,}$", message = "Password must contain at least 8 symbols, including a capital letter, digit, and special symbol")
     private String password;
 
     @Column(name = "email")
