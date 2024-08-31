@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAll(String usernameFilter, String emailFilter, String phoneNumberFilter, Pageable pageable) {
-        Specification<User> filters = Specification.where(StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : username(usernameFilter))
+        Specification<User> filters = Specification
+                .where(StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : username(usernameFilter))
                 .and(StringUtils.isEmptyOrWhitespace(emailFilter) ? null : email(emailFilter))
                 .and(StringUtils.isEmptyOrWhitespace(phoneNumberFilter) ? null : phoneNumber(phoneNumberFilter));
         return userRepository.findAll(filters, pageable);
