@@ -22,3 +22,9 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/build/tmp/compileJava/compileTransaction/stash-dir/AuthenticationHelper.class.uniqueId2
+/build/tmp/compileJava/compileTransaction/stash-dir/SecurityConfig.class.uniqueId0
+/build/tmp/compileJava/compileTransaction/stash-dir/UserController.class.uniqueId4
+/build/tmp/compileJava/compileTransaction/stash-dir/UserService.class.uniqueId3
+/build/tmp/compileJava/compileTransaction/stash-dir/UserServiceImpl.class.uniqueId5
+/build/tmp/compileJava/compileTransaction/stash-dir/VehicleController.class.uniqueId1
