@@ -75,7 +75,15 @@ public class UserController {
     public User createUser(@Valid @RequestBody UserDto userDto) {
 
         User user = userMapper.fromDto(userDto);
-        userService.create(user);
+        userService.createUser(user);
+        return user;
+    }
+
+    @PostMapping("/create/employee")
+    public User createAdmin(@Valid @RequestBody UserDto userDto) {
+
+        User user = userMapper.fromDto(userDto);
+        userService.createEmployee(user);
         return user;
     }
 

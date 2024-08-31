@@ -15,7 +15,8 @@ public interface UserService {
     User findUserByEmail(String email);
     User findUserByUsername(String username);
     User findUserByPhoneNumber(String phoneNumber);
-    User create(User user);
+    User createUser(User user);
+    User createEmployee(User user);
     User update(User user);
     void delete(int id);
 

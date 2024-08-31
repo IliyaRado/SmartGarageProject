@@ -90,10 +90,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
+    public User createUser(User user) {
         checkUsernameUnique(user);
         checkEmailUnique(user);
         Role role = roleRepository.findByType("CUSTOMER");
+        String rawPassword = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
+        user.setRole(role);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User createEmployee(User user) {
+        checkUsernameUnique(user);
+        checkEmailUnique(user);
+        Role role = roleRepository.findByType("EMPLOYEE");
         String rawPassword = user.getPassword();
         String encodedPassword = passwordEncoder.encode(rawPassword);
         user.setPassword(encodedPassword);

@@ -31,13 +31,9 @@ public class Vehicle {
     @Min(value = 1886, message = "Year of creation must be greater than 1886")
     private String yearOfCreation;
 
-    @Column(name = "model")
-    @Size(min = 2, max = 50, message = "Model must be between 2 and 50 characters")
-    private String model;
-
-    @Column(name = "brand")
-    @Size(min = 2, max = 50, message = "Brand must be between 2 and 50 characters")
-    private String brand;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private Model model;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
