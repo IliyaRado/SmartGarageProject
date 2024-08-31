@@ -27,7 +27,7 @@ public class SecurityConfig {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
                         .requestMatchers("/myCards").authenticated()
-                        .requestMatchers("/api/users/").permitAll()
+                        .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/users").permitAll())
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
