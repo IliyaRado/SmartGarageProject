@@ -12,11 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    @Autowired
     private UserRepository repository;
-//
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+
 
     public User fromDto(UserDto dto, int id) {
         User repositoryUser = repository.findById(id);
@@ -45,9 +42,5 @@ public class UserMapper {
         userDto.setPassword(user.getPassword());
         return userDto;
     }
-
-//    public boolean checkPassword(String password, String confirmPassword) {
-//        return password.equals(confirmPassword);
-//    }
 
 }
