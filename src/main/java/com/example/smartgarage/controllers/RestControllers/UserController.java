@@ -90,8 +90,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@PathVariable int id, @Valid @RequestBody UserDto userDto) {
         User user = userMapper.fromDto(userDto, id);
-        userService.update(user);
-        return user;
+        return userService.update(user);
     }
 
     @DeleteMapping("/{id}")

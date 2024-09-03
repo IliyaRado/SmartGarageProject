@@ -22,8 +22,6 @@ public class UserDto {
     private String phoneNumber;
 
 
-    @NotEmpty
-    @NotNull
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,20}$",
             message = "Password must contain one digit from 1 to 9, " +
                     "one lowercase letter, " +
@@ -33,16 +31,6 @@ public class UserDto {
                     "it must be at least 8 characters long.")
     private String password;
 
-    /*@NotEmpty
-    @NotNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{4,12}$",
-            message = "Password must contain one digit from 1 to 9, " +
-                    "one lowercase letter, " +
-                    "one uppercase letter, " +
-                    "one special character, " +
-                    "no space, and " +
-                    "it must be 4-12 characters long.")
-    private String confirmPassword;*/
 
 }
 
