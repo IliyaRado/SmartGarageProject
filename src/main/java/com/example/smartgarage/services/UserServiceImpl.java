@@ -3,6 +3,7 @@ package com.example.smartgarage.services;
 import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.exceptions.DuplicateEntityException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
+import com.example.smartgarage.helpers.PasswordGenerator;
 import com.example.smartgarage.models.Role;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.repositories.RoleRepository;
@@ -28,12 +29,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final PasswordGenerator passwordGenerator;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, EmailService emailService, PasswordGenerator passwordGenerator) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.passwordGenerator = passwordGenerator;
     }
 
 
@@ -45,7 +50,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAll(String usernameFilter, String emailFilter, String phoneNumberFilter, Pageable pageable) {
-        Specification<User> filters = Specification.where(StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : username(usernameFilter))
+        Specification<User> filters = Specification
+                .where(StringUtils.isEmptyOrWhitespace(usernameFilter) ? null : username(usernameFilter))
                 .and(StringUtils.isEmptyOrWhitespace(emailFilter) ? null : email(emailFilter))
                 .and(StringUtils.isEmptyOrWhitespace(phoneNumberFilter) ? null : phoneNumber(phoneNumberFilter));
         return userRepository.findAll(filters, pageable);
@@ -93,12 +99,23 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         checkUsernameUnique(user);
         checkEmailUnique(user);
-        Role role = roleRepository.findByType("CUSTOMER");
-        String rawPassword = user.getPassword();
-        String encodedPassword = passwordEncoder.encode(rawPassword);
+        String generatedPassword = passwordGenerator.generatePassword();
+        String encodedPassword = passwordEncoder.encode(generatedPassword);
         user.setPassword(encodedPassword);
+        Role role = roleRepository.findByType("CUSTOMER");
         user.setRole(role);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        emailService.sendEmail(
+                user.getEmail(),
+                "Welcome to SmartGarage",
+                String.format(
+                        "Your username is: %s\nYour password is: %s\nRemember to keep your Username and Password secure.",
+                        user.getUsername(), generatedPassword
+                )
+        );
+
+        return savedUser;
     }
 
     @Override

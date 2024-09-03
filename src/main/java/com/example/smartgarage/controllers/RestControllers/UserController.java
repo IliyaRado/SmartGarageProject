@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @PostMapping("/create/employee")
-    public User createAdmin(@Valid @RequestBody UserDto userDto) {
+    public User createEmployee(@Valid @RequestBody UserDto userDto) {
 
         User user = userMapper.fromDto(userDto);
         userService.createEmployee(user);
