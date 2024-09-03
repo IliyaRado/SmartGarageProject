@@ -132,7 +132,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(int id) {
 
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = userRepository.findByUsername(authentication.getName());
+        User userToDelete = findUserById(id);
+        if (userToDelete == null) {
+            throw new EntityNotFoundException("User", id);
+        }
+        if (currentUser.getId() != userToDelete.getId() && !currentUser.getRole().getType().equals("ADMIN")) {
+            throw new AuthorizationException("You are not authorized to delete this user.");
+        }
+        userRepository.delete(userToDelete);
     }
 
     private void checkEmailUnique(User user) {
