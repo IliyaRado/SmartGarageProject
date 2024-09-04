@@ -4,8 +4,10 @@ import com.example.smartgarage.exceptions.AuthorizationException;
 import com.example.smartgarage.exceptions.DuplicateEntityException;
 import com.example.smartgarage.exceptions.EntityNotFoundException;
 import com.example.smartgarage.helpers.PasswordGenerator;
+import com.example.smartgarage.models.PasswordResetToken;
 import com.example.smartgarage.models.Role;
 import com.example.smartgarage.models.User;
+import com.example.smartgarage.repositories.PasswordResetTokenRepository;
 import com.example.smartgarage.repositories.RoleRepository;
 import com.example.smartgarage.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static com.example.smartgarage.filters.UserSpecifications.*;
 
@@ -37,15 +38,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final PasswordGenerator passwordGenerator;
+    private final PasswordResetTokenRepository tokenRepository;
 
     @Lazy
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, EmailService emailService, PasswordGenerator passwordGenerator) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, EmailService emailService, PasswordGenerator passwordGenerator, PasswordResetTokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.passwordGenerator = passwordGenerator;
+        this.tokenRepository = tokenRepository;
     }
 
 
@@ -77,11 +80,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findUserByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
             throw new EntityNotFoundException("User", "email", email);
         }
-        return user;
+        return user.orElse(null);
     }
 
     @Override
@@ -197,5 +200,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private Collection<? extends GrantedAuthority> getAuthorities(User user) {
         return List.of(new SimpleGrantedAuthority(user.getRole().getType()));
+    }
+
+    public void sendPasswordResetLink(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User", "email", email));
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken resetToken = new PasswordResetToken();
+        resetToken.setToken(token);
+        resetToken.setUser(user);
+        resetToken.setExpiryDate(new Date(System.currentTimeMillis() + 3600 * 1000));
+        tokenRepository.save(resetToken);
+        emailService.sendPasswordResetEmail(user.getEmail(), token);
     }
 }

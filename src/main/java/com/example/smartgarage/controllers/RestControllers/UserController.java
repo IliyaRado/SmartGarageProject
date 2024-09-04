@@ -100,5 +100,10 @@ public class UserController {
         userService.delete(id);
     }
 
+    @PostMapping("/send-reset-password-link")
+    public void sendResetPasswordLink(@RequestParam String email) {
+        userService.sendPasswordResetLink(email);
+    }
+
 
 }
