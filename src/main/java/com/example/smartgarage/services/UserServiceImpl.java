@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.*;
@@ -178,7 +180,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private void checkEmailUnique(User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new DuplicateEntityException("User", "email", user.getEmail());
         }
     }
@@ -211,5 +213,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         resetToken.setExpiryDate(new Date(System.currentTimeMillis() + 3600 * 1000));
         tokenRepository.save(resetToken);
         emailService.sendPasswordResetEmail(user.getEmail(), token);
+    }
+
+    public void resetPassword(String token, String newPassword) {
+        PasswordResetToken resetToken = tokenRepository.findByToken(token);
+
+        if (resetToken == null || resetToken.getExpiryDate().before(new Date())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid or expired token.");
+        }
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        tokenRepository.delete(resetToken);
     }
 }

@@ -105,5 +105,9 @@ public class UserController {
         userService.sendPasswordResetLink(email);
     }
 
+    @PostMapping("/reset-password")
+    public void resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        userService.resetPassword(token, newPassword);
+    }
 
 }

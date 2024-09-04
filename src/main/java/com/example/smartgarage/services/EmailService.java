@@ -32,7 +32,7 @@ public class EmailService {
 
     public void sendPasswordResetEmail(String to, String token) {
         String subject = "Password Reset Request";
-        String resetUrl = "http://example.com/reset-password?token=" + token;
+        String resetUrl = "http://smartgarage.com/reset-password?token=" + token;
         String text = "To reset your password, click the link below:\n" + resetUrl;
         sendEmail(to, subject, text);
     }
