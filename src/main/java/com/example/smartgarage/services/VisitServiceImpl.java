@@ -5,6 +5,7 @@ import com.example.smartgarage.models.Service;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.models.Vehicle;
 import com.example.smartgarage.models.Visit;
+import com.example.smartgarage.models.dtos.VisitReportDto;
 import com.example.smartgarage.models.dtos.VisitUpdateDto;
 import com.example.smartgarage.repositories.ServiceRepository;
 import com.example.smartgarage.repositories.UserRepository;
@@ -21,13 +22,14 @@ public class VisitServiceImpl implements VisitService {
     private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
     private final ServiceRepository serviceRepository;
-//    private final CurrencyService currencyService;
+    private final CurrencyConversionService currencyConversionService;
 
-    public VisitServiceImpl(VisitRepository visitRepository, UserRepository userRepository, VehicleRepository vehicleRepository, ServiceRepository serviceRepository) {
+    public VisitServiceImpl(VisitRepository visitRepository, UserRepository userRepository, VehicleRepository vehicleRepository, ServiceRepository serviceRepository, CurrencyConversionService currencyConversionService) {
         this.visitRepository = visitRepository;
         this.userRepository = userRepository;
         this.vehicleRepository = vehicleRepository;
         this.serviceRepository = serviceRepository;
+        this.currencyConversionService = currencyConversionService;
     }
 
     @Override
@@ -85,12 +87,25 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public Visit generateVisitReport(int visitId, String currencyCode) {
-        Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new EntityNotFoundException("Visit", visitId));
-//        if (!"USD".equalsIgnoreCase(currencyCode)) {
-//            double convertedTotalPrice = currencyConversionService.convert(visit.getTotalPrice(), "USD", currencyCode);
-//            visit.setTotalPrice(convertedTotalPrice);
-//        }
-        return visit;
+    public VisitReportDto generateVisitReport(int visitId, String currencyCode) {
+        Visit visit = visitRepository.findById(visitId)
+                .orElseThrow(() -> new EntityNotFoundException("Visit", visitId));
+
+        double totalPrice = visit.getServices().stream()
+                .mapToDouble(Service::getPrice)
+                .sum();
+
+        if (!currencyCode.equalsIgnoreCase("USD")) {
+            totalPrice = currencyConversionService.convertCurrency(totalPrice, currencyCode);
+        }
+
+        VisitReportDto report = new VisitReportDto();
+        report.setCustomer(visit.getUser());
+        report.setVehicle(visit.getVehicle());
+        report.setServices(visit.getServices());
+        report.setTotalPrice(totalPrice);
+        report.setCurrencyCode(currencyCode);
+
+        return report;
     }
 }
