@@ -33,9 +33,18 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public Visit createVisit(int userId, int vehicleId, List<Service> services) {
+    public List<Visit> getAllVisits() {
+        return visitRepository.findAll();
+    }
+
+    @Override
+    public Visit createVisit(int userId, int vehicleId, List<Integer> serviceIds) {
         User user = userRepository.findById(userId);
-        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new RuntimeException("Vehicle not found"));
+        Vehicle vehicle = vehicleRepository.findById(vehicleId);
+        List<Service> services = serviceRepository.findAllById(serviceIds);
+        if (services.isEmpty()) {
+            throw new RuntimeException("No valid services found for the provided IDs.");
+        }
 
         Visit visit = new Visit();
         visit.setUser(user);
@@ -90,6 +99,11 @@ public class VisitServiceImpl implements VisitService {
     public VisitReportDto generateVisitReport(int visitId, String currencyCode) {
         Visit visit = visitRepository.findById(visitId)
                 .orElseThrow(() -> new EntityNotFoundException("Visit", visitId));
+
+        List<Service> services = visit.getServices();
+        if (services.isEmpty()) {
+            throw new RuntimeException("No services found for this visit.");
+        }
 
         double totalPrice = visit.getServices().stream()
                 .mapToDouble(Service::getPrice)

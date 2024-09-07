@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface VisitService {
 
-
-    Visit createVisit(int userId, int vehicleId, List<Service> services);
+    List<Visit> getAllVisits();
+    Visit createVisit(int userId, int vehicleId, List<Integer> serviceIds);
     Visit update(VisitUpdateDto visit);
     void delete(int id);
     Visit findVisitById(int id);
