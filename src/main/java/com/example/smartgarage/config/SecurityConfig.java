@@ -4,6 +4,7 @@ import com.example.smartgarage.services.UserService;
 import com.example.smartgarage.services.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,7 +29,15 @@ public class SecurityConfig {
                 authorizeRequests
                         .requestMatchers("/myCards").authenticated()
                         .requestMatchers("/api/users/**").permitAll()
-                        .requestMatchers("/api/users").permitAll())
+                        .requestMatchers("/api/users").permitAll()
+                        .requestMatchers("/api/vehicles/**").permitAll()
+                        .requestMatchers("/api/vehicles").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("CUSTOMER")
+                        .anyRequest().authenticated()
+                )
+
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }

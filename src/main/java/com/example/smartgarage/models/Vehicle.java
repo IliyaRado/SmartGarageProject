@@ -35,8 +35,8 @@ public class Vehicle {
     @JoinColumn(name = "model_id")
     private Model model;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
 }

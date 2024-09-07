@@ -34,57 +34,72 @@ public class VehicleController {
     public List<Vehicle> getAllVehicles() {
         return vehicleService.getAll();
     }
+    @GetMapping("/withoutUser")
+    public List<Vehicle> getVehiclesWithoutUser() {
+        return vehicleService.findAllVehiclesWithoutUser();
+    }
 
     @GetMapping("/{id}")
     public Vehicle getVehicleById(@PathVariable int id) {
-        try {
-            return vehicleService.findVehicleById(id);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        return vehicleService.findVehicleById(id);
     }
+
 
     @GetMapping("/user/{userId}")
     public Vehicle getVehicleByOwner(@PathVariable int userId) {
-        try {
-            return vehicleService.getVehicleByUser(userId);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        return vehicleService.getVehicleByUser(userId);
     }
 
     @GetMapping("/licensePlate/{licensePlate}")
     public Vehicle getVehicleByLicensePlate(@PathVariable String licensePlate) {
-        try {
-            return vehicleService.findByLicensePlate(licensePlate);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        return vehicleService.findByLicensePlate(licensePlate);
     }
 
     @GetMapping("/vin/{vin}")
     public Vehicle getVehicleByVin(@PathVariable String vin) {
-        try {
-            return vehicleService.findByVin(vin);
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+        return vehicleService.findByVin(vin);
     }
 
     @PostMapping("")
-    public Vehicle createVehicle(@Valid @RequestBody VehicleDto vehicleDto) {
-        Vehicle vehicle = vehicleMapper.fromDto(vehicleDto);
-        return vehicleService.save(vehicle);
-
+    @ResponseStatus(HttpStatus.CREATED)
+    public Vehicle createVehicleWithUser(@Valid @RequestBody VehicleDto vehicleDto) {
+        Vehicle vehicle = vehicleMapper.fromDtoWithUser(vehicleDto);
+        return vehicleService.createWithUser(vehicle);
     }
 
     @PutMapping("/{id}")
-    public Vehicle updateVehicle(@PathVariable int id, @RequestBody VehicleDto vehicleDto) {
-
-        Vehicle vehicle = vehicleMapper.fromDto(vehicleDto);
-
+    public Vehicle updateVehicleWithUser(@PathVariable int id, @Valid @RequestBody VehicleDto vehicleDto) {
+        Vehicle vehicle = vehicleMapper.fromDtoWithUser(vehicleDto);
         return vehicleService.update(vehicle, id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVehicle(@PathVariable int id) {
+        vehicleService.delete(id);
+    }
 
+    @PostMapping("/withoutUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Vehicle createVehicleWithoutUser(@Valid @RequestBody VehicleDto vehicleDto) {
+        Vehicle vehicle = vehicleMapper.fromDtoWithoutUser(vehicleDto);
+        return vehicleService.createWithoutUser(vehicle);
+    }
+
+    @PutMapping("/{vehicleId}/addUser/{userId}")
+    public Vehicle addVehicleToUser(@PathVariable int vehicleId, @PathVariable int userId) {
+        return vehicleService.addVehicleToUser(vehicleId, userId);
+    }
+
+    @DeleteMapping("/withoutUser/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVehicleWithoutUser(@PathVariable int id) {
+        vehicleService.deleteWithoutUser(id);
+    }
+
+    @PutMapping("/withoutUser/{id}")
+    public Vehicle updateVehicleWithoutUser(@PathVariable int id, @Valid @RequestBody VehicleDto vehicleDto) {
+        Vehicle vehicle = vehicleMapper.fromDtoWithoutUser(vehicleDto);
+        return vehicleService.updateWithoutUser(vehicle, id);
+    }
 }

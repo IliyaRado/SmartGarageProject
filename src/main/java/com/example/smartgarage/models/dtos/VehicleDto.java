@@ -1,6 +1,7 @@
 package com.example.smartgarage.models.dtos;
 
 import com.example.smartgarage.models.Model;
+import com.example.smartgarage.models.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class VehicleDto {
     @NotEmpty
     private String licensePlate;
 
-    private int userId;
+    private int user;
 
     @NotEmpty
     private String vin;

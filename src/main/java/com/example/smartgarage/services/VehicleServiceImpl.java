@@ -19,9 +19,12 @@ import static com.example.smartgarage.filters.VehicleSpecifications.*;
 @Service
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
+    private final UserService userService;
+
     @Autowired
-    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository, UserService userService) {
         this.vehicleRepository = vehicleRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -30,7 +33,6 @@ public class VehicleServiceImpl implements VehicleService {
                         StringUtils.isEmptyOrWhitespace(modelFilter) ? null : hasModel(modelFilter))
                 .and(StringUtils.isEmptyOrWhitespace(brandFilter) ? null : hasBrand(brandFilter))
                 .and(StringUtils.isEmptyOrWhitespace(yearOfCreationFilter) ? null : hasYearOfCreation(yearOfCreationFilter));
-
         return vehicleRepository.findAll(filters, pageable);
     }
 
@@ -38,57 +40,79 @@ public class VehicleServiceImpl implements VehicleService {
     public List<Vehicle> getAll() {
         return vehicleRepository.findAll();
     }
-
+    @Override
+    public List<Vehicle> findAllVehiclesWithoutUser() {
+        return vehicleRepository.findByUserIsNull();
+    }
     @Override
     public Vehicle findVehicleById(int id) {
-        Vehicle vehicle = vehicleRepository.findById(id);
-        if (vehicle == null) {
-            throw new EntityNotFoundException("Vehicle", id);
-        }
-        return vehicle;
+        return vehicleRepository.findById(id);
     }
 
     @Override
     public Vehicle findByLicensePlate(String licensePlate) {
-        Vehicle vehicle = vehicleRepository.findByLicensePlate(licensePlate);
-        if (vehicle == null) {
-            throw new EntityNotFoundException("Vehicle","License plate", licensePlate);
-        }
-        return vehicle;
+        return vehicleRepository.findByLicensePlate(licensePlate);
     }
 
     @Override
     public Vehicle findByVin(String vin) {
-        Vehicle vehicle = vehicleRepository.findByVin(vin);
-        if (vehicle == null) {
-            throw new EntityNotFoundException("Vehicle","Vin", vin);
-        }
-        return vehicle;
+        return vehicleRepository.findByVin(vin);
     }
 
     @Override
-    public Vehicle save(Vehicle vehicle) {
+    public Vehicle createWithUser(Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
 
     @Override
     public Vehicle update(Vehicle vehicle, int id) {
-        return vehicleRepository.save(vehicle);
+        Vehicle existingVehicle = findVehicleById(id);
+        existingVehicle.setModel(vehicle.getModel());
+        existingVehicle.setLicensePlate(vehicle.getLicensePlate());
+        existingVehicle.setVin(vehicle.getVin());
+        existingVehicle.setYearOfCreation(vehicle.getYearOfCreation());
+        existingVehicle.setUser(vehicle.getUser());
+        return vehicleRepository.save(existingVehicle);
     }
 
     @Override
     public void delete(int id) {
-        vehicleRepository.deleteById(id);
+        Vehicle vehicle = findVehicleById(id);
+        vehicleRepository.delete(vehicle);
     }
 
     @Override
     public Vehicle getVehicleByUser(int userId) {
-        Vehicle vehicle = vehicleRepository.findById(userId);
-        if (vehicle == null) {
-            throw new EntityNotFoundException("Vehicle", userId);
-        }
-        return vehicle;
+        return vehicleRepository.findByUser(new User());
     }
 
+    @Override
+    public Vehicle createWithoutUser(Vehicle vehicle) {
+        return vehicleRepository.save(vehicle);
+    }
 
+    @Override
+    public Vehicle addVehicleToUser(int vehicleId, int userId) {
+        Vehicle vehicle = findVehicleById(vehicleId);
+        User user = userService.findUserById(userId);
+        vehicle.setUser(user);
+        return vehicleRepository.save(vehicle);
+    }
+
+    @Override
+    public void deleteWithoutUser(int id) {
+        Vehicle vehicle = findVehicleById(id);
+        vehicleRepository.delete(vehicle);
+    }
+
+    @Override
+    public Vehicle updateWithoutUser(Vehicle vehicle, int id) {
+        Vehicle existingVehicle = findVehicleById(id);
+        existingVehicle.setModel(vehicle.getModel());
+        existingVehicle.setLicensePlate(vehicle.getLicensePlate());
+        existingVehicle.setVin(vehicle.getVin());
+        existingVehicle.setYearOfCreation(vehicle.getYearOfCreation());
+        return vehicleRepository.save(existingVehicle);
+    }
 }
+
