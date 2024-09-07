@@ -12,8 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    private UserRepository repository;
+    private final UserRepository repository;
 
+    @Autowired
+    public UserMapper(UserRepository repository) {
+        this.repository = repository;
+    }
 
     public User fromDto(UserDto dto, int id) {
         User repositoryUser = repository.findById(id);
@@ -22,6 +26,7 @@ public class UserMapper {
         }
         User user = fromDto(dto);
         user.setUsername(repositoryUser.getUsername());
+        user.setPhoneNumber(repositoryUser.getPhoneNumber());
         user.setRole(repositoryUser.getRole());
         user.setId(id);
         return user;
@@ -30,7 +35,6 @@ public class UserMapper {
     public User fromDto(UserDto dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
         user.setPhoneNumber(dto.getPhoneNumber());
         return user;

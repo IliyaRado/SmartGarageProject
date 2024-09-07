@@ -90,8 +90,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@PathVariable int id, @Valid @RequestBody UserDto userDto) {
         User user = userMapper.fromDto(userDto, id);
-        userService.update(user);
-        return user;
+        return userService.update(user);
     }
 
     @DeleteMapping("/{id}")
@@ -101,5 +100,14 @@ public class UserController {
         userService.delete(id);
     }
 
+    @PostMapping("/send-reset-password-link")
+    public void sendResetPasswordLink(@RequestParam String email) {
+        userService.sendPasswordResetLink(email);
+    }
+
+    @PostMapping("/reset-password")
+    public void resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        userService.resetPassword(token, newPassword);
+    }
 
 }

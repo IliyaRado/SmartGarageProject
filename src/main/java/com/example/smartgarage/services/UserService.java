@@ -19,5 +19,6 @@ public interface UserService {
     User createEmployee(User user);
     User update(User user);
     void delete(int id);
-
+    void sendPasswordResetLink(String email);
+    void resetPassword(String token, String password);
 }

@@ -41,4 +41,6 @@ public class Visit {
     )
     private List<Service> services;
 
+    @Column(name = "total_price")
+    private double totalPrice;
 }
