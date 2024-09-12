@@ -1,7 +1,6 @@
 package com.example.smartgarage.controllers.RestControllers;
 
 import com.example.smartgarage.exceptions.EntityNotFoundException;
-import com.example.smartgarage.helpers.AuthenticationHelper;
 import com.example.smartgarage.helpers.UserMapper;
 import com.example.smartgarage.models.User;
 import com.example.smartgarage.models.dtos.UserDto;

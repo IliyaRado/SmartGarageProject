@@ -55,7 +55,7 @@ public class VisitController {
 
     @GetMapping("/{visitId}/report")
     public ResponseEntity<VisitReportDto> generateVisitReport(@PathVariable int visitId,
-                                                              @RequestParam(defaultValue = "USD") String currency) {
+                                                              @RequestParam(defaultValue = "EUR") String currency) {
         VisitReportDto report = visitService.generateVisitReport(visitId, currency);
         return ResponseEntity.ok(report);
     }

@@ -109,7 +109,7 @@ public class VisitServiceImpl implements VisitService {
                 .mapToDouble(Service::getPrice)
                 .sum();
 
-        if (!currencyCode.equalsIgnoreCase("USD")) {
+        if (!currencyCode.equalsIgnoreCase("EUR")) {
             totalPrice = currencyConversionService.convertCurrency(totalPrice, currencyCode);
         }
 
