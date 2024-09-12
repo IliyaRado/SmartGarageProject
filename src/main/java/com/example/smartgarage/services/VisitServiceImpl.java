@@ -39,7 +39,8 @@ public class VisitServiceImpl implements VisitService {
 
     @Override
     public Visit createVisit(int userId, int vehicleId, List<Integer> serviceIds) {
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
         Vehicle vehicle = vehicleRepository.findById(vehicleId);
         List<Service> services = serviceRepository.findAllById(serviceIds);
         if (services.isEmpty()) {
@@ -51,6 +52,7 @@ public class VisitServiceImpl implements VisitService {
         visit.setVehicle(vehicle);
         visit.setStartDate(LocalDate.now());
         visit.setServices(services);
+
         double totalPrice = services.stream().mapToDouble(Service::getPrice).sum();
         visit.setTotalPrice(totalPrice);
 
@@ -75,6 +77,9 @@ public class VisitServiceImpl implements VisitService {
         visit.setVehicle(vehicle);
 
         List<Service> services = serviceRepository.findAllById(visitUpdateDto.getServiceIds());
+        if (services.isEmpty()) {
+            throw new RuntimeException("No valid services found for the provided IDs.");
+        }
         visit.setServices(services);
 
         return visitRepository.save(visit);

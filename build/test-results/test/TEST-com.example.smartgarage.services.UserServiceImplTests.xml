@@ -1,32 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.smartgarage.services.UserServiceImplTests" tests="5" skipped="0" failures="2" errors="0" timestamp="2024-09-11T22:52:17" hostname="VAGABONT-J1478" time="4.373">
+<testsuite name="com.example.smartgarage.services.UserServiceImplTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-09-12T23:19:07" hostname="VAGABONT-J1478" time="8.065">
   <properties/>
-  <testcase name="createUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="3.887">
-    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;encodedPassword&gt; but was: &lt;null&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;encodedPassword&gt; but was: &lt;null&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
-	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
-	at app//com.example.smartgarage.services.UserServiceImplTests.createUser_Successful(UserServiceImplTests.java:93)
-	at java.base@17.0.10/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base@17.0.10/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base@17.0.10/java.util.ArrayList.forEach(ArrayList.java:1511)
-</failure>
-  </testcase>
-  <testcase name="updateUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.328">
-    <failure message="com.example.smartgarage.exceptions.EntityNotFoundException: User with id 1 not found." type="com.example.smartgarage.exceptions.EntityNotFoundException">com.example.smartgarage.exceptions.EntityNotFoundException: User with id 1 not found.
-	at app//com.example.smartgarage.services.UserServiceImpl.update(UserServiceImpl.java:153)
-	at app//com.example.smartgarage.services.UserServiceImplTests.updateUser_Successful(UserServiceImplTests.java:124)
-	at java.base@17.0.10/java.lang.reflect.Method.invoke(Method.java:568)
-	at java.base@17.0.10/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at java.base@17.0.10/java.util.ArrayList.forEach(ArrayList.java:1511)
-</failure>
-  </testcase>
-  <testcase name="createUser_FailsWhenDuplicateEmail()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.034"/>
-  <testcase name="findUserById_UserNotFound()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.015"/>
-  <testcase name="findUserById_UserExists()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.055"/>
+  <testcase name="createUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="7.471"/>
+  <testcase name="updateUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.488"/>
+  <testcase name="createUser_FailsWhenDuplicateEmail()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.068"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

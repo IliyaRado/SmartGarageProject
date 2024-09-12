@@ -44,7 +44,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Lazy
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, EmailService emailService, PasswordGenerator passwordGenerator, PasswordResetTokenRepository tokenRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder,
+                           EmailService emailService, PasswordGenerator passwordGenerator, PasswordResetTokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -53,10 +54,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.tokenRepository = tokenRepository;
     }
 
-
     @Override
     public List<User> getAll() {
-
         return userRepository.findAll();
     }
 
@@ -71,40 +70,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findUserById(int id) {
-
-        User user = userRepository.findById(id);
-        if (user == null){
-            throw new EntityNotFoundException("User", id);
-        }
-        return user;
-
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
     }
 
     @Override
     public User findUserByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new EntityNotFoundException("User", "email", email);
-        }
-        return user.orElse(null);
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User", "email", email));
     }
 
     @Override
     public User findUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new EntityNotFoundException("User", "username", username);
-        }
-        return user;
+        return userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User", "username", username));
     }
 
     @Override
     public User findUserByPhoneNumber(String phoneNumber) {
-        User user = userRepository.findByPhoneNumber(phoneNumber);
-        if (user == null) {
-            throw new EntityNotFoundException("User", "phone number", phoneNumber);
-        }
-        return user;
+        return userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new EntityNotFoundException("User", "phone number", phoneNumber));
     }
 
     @Override
@@ -114,7 +95,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String generatedPassword = passwordGenerator.generatePassword();
         String encodedPassword = passwordEncoder.encode(generatedPassword);
         user.setPassword(encodedPassword);
-        Role role = roleRepository.findByType("CUSTOMER");
+
+        Role role = roleRepository.findByType("CUSTOMER").orElseThrow(() -> new EntityNotFoundException("Role", "type", "CUSTOMER"));
         user.setRole(role);
         User savedUser = userRepository.save(user);
 
@@ -134,7 +116,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User createEmployee(User user) {
         checkUsernameUnique(user);
         checkEmailUnique(user);
-        Role role = roleRepository.findByType("EMPLOYEE");
+        Role role = roleRepository.findByType("EMPLOYEE").orElseThrow(() -> new EntityNotFoundException("Role", "type","EMPLOYEE"));
         String rawPassword = user.getPassword();
         String encodedPassword = passwordEncoder.encode(rawPassword);
         user.setPassword(encodedPassword);
@@ -144,18 +126,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User update(User user) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = userRepository.findByUsername(authentication.getName());
+        User currentUser = userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new EntityNotFoundException("User", "username", authentication.getName()));
 
-        User userToUpdate = userRepository.findById(user.getId());
-        if (userToUpdate == null) {
-            throw new EntityNotFoundException("User", user.getId());
-        }
+        User userToUpdate = userRepository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User", user.getId()));
 
         if (currentUser.getId() != user.getId()) {
             throw new AuthorizationException("You are not authorized to update this user.");
         }
+
         if (!currentUser.getEmail().equals(user.getEmail()) || !currentUser.getUsername().equals(user.getUsername())) {
             checkEmailUnique(user);
             checkUsernameUnique(user);
@@ -165,18 +146,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setUsername(user.getUsername());
 
-        return userRepository.save(user);
+        return userRepository.save(userToUpdate);
     }
 
     @Override
     public void delete(int id) {
-
-        User user = userRepository.findById(id);
-        if (user == null) {
-            throw new EntityNotFoundException("User", id);
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User", id));
         userRepository.deleteById(id);
-
     }
 
     private void checkEmailUnique(User user) {
@@ -186,17 +162,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private void checkUsernameUnique(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new DuplicateEntityException("User", "username", user.getUsername());
         }
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
     }
 

@@ -20,15 +20,15 @@ public class UserMapper {
     }
 
     public User fromDto(UserDto dto, int id) {
-        User repositoryUser = repository.findById(id);
-        if (repositoryUser == null) {
-            throw new EntityNotFoundException("User", id);
-        }
+        User repositoryUser = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User", id));  // Handle Optional here
+
         User user = fromDto(dto);
         user.setUsername(repositoryUser.getUsername());
         user.setPhoneNumber(repositoryUser.getPhoneNumber());
         user.setRole(repositoryUser.getRole());
         user.setId(id);
+
         return user;
     }
 

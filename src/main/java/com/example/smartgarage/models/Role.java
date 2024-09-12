@@ -20,4 +20,5 @@ public class Role {
     @Column(name = "type")
     private String type;
 
+
 }
