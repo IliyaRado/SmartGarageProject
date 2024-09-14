@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.smartgarage.services.UserServiceImplTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-09-12T23:19:07" hostname="VAGABONT-J1478" time="8.065">
+<testsuite name="com.example.smartgarage.services.UserServiceImplTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-09-13T20:52:40" hostname="VAGABONT-J1478" time="6.673">
   <properties/>
-  <testcase name="createUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="7.471"/>
-  <testcase name="updateUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.488"/>
-  <testcase name="createUser_FailsWhenDuplicateEmail()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.068"/>
+  <testcase name="createUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="6.178"/>
+  <testcase name="updateUser_Successful()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.403"/>
+  <testcase name="createUser_FailsWhenDuplicateEmail()" classname="com.example.smartgarage.services.UserServiceImplTests" time="0.069"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

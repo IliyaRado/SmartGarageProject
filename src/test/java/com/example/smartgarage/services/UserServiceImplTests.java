@@ -62,7 +62,6 @@ class UserServiceImplTests {
         customerRole.setId(1);
         customerRole.setType("CUSTOMER");
 
-        // Mock the return values
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());  // No duplicate email
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());  // No duplicate username
         when(roleRepository.findByType(anyString())).thenReturn(Optional.of(customerRole));  // Return Optional.of(customerRole)
@@ -70,13 +69,10 @@ class UserServiceImplTests {
         when(passwordGenerator.generatePassword()).thenReturn("generatedPassword");  // Mock the password generator
         when(userRepository.save(any(User.class))).thenReturn(mockUser);  // Mock saving the user
 
-        // Mock email sending
         doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString());
 
-        // Act
         User createdUser = userService.createUser(mockUser);
 
-        // Assert
         assertNotNull(createdUser);
         assertEquals("encodedPassword", createdUser.getPassword());
         assertEquals(customerRole, createdUser.getRole());
@@ -86,16 +82,15 @@ class UserServiceImplTests {
 
     @Test
     void createUser_FailsWhenDuplicateEmail() {
-        // Arrange
+
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(mockUser));
 
-        // Act & Assert
         assertThrows(DuplicateEntityException.class, () -> userService.createUser(mockUser));
     }
 
     @Test
     void updateUser_Successful() {
-        // Arrange
+
         User userToUpdate = new User();
         userToUpdate.setId(1);
         userToUpdate.setUsername("updatedUser");
@@ -106,7 +101,6 @@ class UserServiceImplTests {
         when(userRepository.findByUsername(mockUser.getUsername())).thenReturn(Optional.of(mockUser));
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
-        // Setting up the mock SecurityContext and Authentication
         Authentication authentication = mock(Authentication.class);
         SecurityContext securityContext = mock(SecurityContext.class);
 
@@ -114,21 +108,18 @@ class UserServiceImplTests {
         when(authentication.getName()).thenReturn(mockUser.getUsername());
         SecurityContextHolder.setContext(securityContext);
 
-        // Make sure userRepository.save() returns the updated user
         when(userRepository.save(any(User.class))).thenReturn(userToUpdate);
 
-        // Act
         User updatedUser = userService.update(userToUpdate);
 
-        // Assert
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(userRepository, times(1)).save(userCaptor.capture());  // Capture the argument passed to save()
+        verify(userRepository, times(1)).save(userCaptor.capture());
 
-        User savedUser = userCaptor.getValue();  // Get the captured user
+        User savedUser = userCaptor.getValue();
 
-        assertNotNull(savedUser);  // Ensure that the user is not null
-        assertEquals("updatedUser", savedUser.getUsername());  // Check the updated username
-        assertEquals("updateduser@example.com", savedUser.getEmail());  // Check the updated email
-        assertEquals("123456789", savedUser.getPhoneNumber());  // Check the updated phone number
+        assertNotNull(savedUser);
+        assertEquals("updatedUser", savedUser.getUsername());
+        assertEquals("updateduser@example.com", savedUser.getEmail());
+        assertEquals("123456789", savedUser.getPhoneNumber());
     }
 }
