@@ -13,7 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="garage@forumsystem.cpy86y2sqlgo.eu-north-1.rds.amazonaws.com" uuid="1c3678e7-f236-4e4e-839f-d38b48dd408b">
+    <data-source source="LOCAL" name="garage@forumsystem.cpy86y2sqlgo.eu-north-1.rds.amazonaws.com" uuid="67e0e0a9-2e4e-44a7-a494-5e1624a23217">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

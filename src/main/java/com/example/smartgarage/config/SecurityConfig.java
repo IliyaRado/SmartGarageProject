@@ -28,20 +28,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests ->
-                authorizeRequests
-                        .requestMatchers("/myCards").authenticated()
-//                        .requestMatchers("/api/users/**").authenticated()
-                        .requestMatchers("/api/users").permitAll()
-                        .requestMatchers("/api/vehicles/**").permitAll()
-                        .requestMatchers("/api/vehicles").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("CUSTOMER")
-                        .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("CUSTOMER")
-                        .anyRequest().permitAll())
+        http
+                .authorizeRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/login", "/resources/", "/static/").permitAll()
+                        .anyRequest().permitAll()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .permitAll()
+                )
                 .csrf(AbstractHttpConfigurer::disable);
+
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -54,3 +57,13 @@ public class SecurityConfig {
     }
 
 }
+// .requestMatchers("/static/**").permitAll()
+// .requestMatchers("/myCards").authenticated()
+// .requestMatchers("/api/users/**").authenticated()
+// .requestMatchers("/api/users").permitAll()
+// .requestMatchers("/api/vehicles/**").permitAll()
+// .requestMatchers("/api/vehicles").permitAll()
+// .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("CUSTOMER")
+// .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("CUSTOMER")
+// .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("CUSTOMER")
+// .anyRequest().permitAll()
