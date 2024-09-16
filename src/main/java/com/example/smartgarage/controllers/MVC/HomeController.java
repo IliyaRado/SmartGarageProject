@@ -32,6 +32,11 @@ public class HomeController {
 
         return "about";
     }
+    @GetMapping("/appointment")
+    public String showAppointmentPage() {
+
+        return "appointment";
+    }
 
     @GetMapping("/login")
     public String login(Model model) {
