@@ -42,7 +42,7 @@
                     <div class="top-left">
                         <ul class="clearfix">
                             <li>Autocare is your one stap solution for all auto repair needs!</li>
-                            <li><a href="appointment.html">Get a Free Auto Checkup Now <i class="fa fa-long-arrow-alt-right"></i></a></li>
+                            <li><a th:href="@{/appointment}">Get a Free Auto Checkup Now <i class="fa fa-long-arrow-alt-right"></i></a></li>
                         </ul>
                     </div>
                     <div class="top-right clearfix">
@@ -362,7 +362,20 @@
                 <h2>Make an <span>Appointment</span></h2>
                 <p>We are one of the leading auto repair shops serving customers in Tucson. All mechanic services<br> are performed by highly qualified mechanics.</p>
             </div>
+            <div class="contact-form">
+                <div class="title"><h3>Enter customer credentials</h3></div>
+                <form>
+                    <div class="row clearfix">
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <input type="text" name="name" placeholder="Enter username">
+                        </div>
 
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                            <input type="email" name="email" placeholder="Enter User Email Address">
+                        </div>
+                    </div>
+                </form>
+            </div>
             <!-- Service form-->
             <div class="service-form">
                 <form>
@@ -377,44 +390,38 @@
                             </div>
 
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <div class="title"><h3>Vehicle Make</h3></div>
+                                <div class="title"><h3>Vehicle Model</h3></div>
                                 <div class="field-inner">
                                     <select class="custom-select-box">
-                                        <option>Choose Now</option>
-                                        <option>Choose Now</option>
-                                        <option>Choose Now</option>
-                                        <option>Choose Now</option>
+                                        <option>A3</option>
+                                        <option>A4</option>
+                                        <option>A6</option>
+                                        <option>S4</option>
+                                        <option>E270</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                                <div class="title"><h3>Vehicle Mileage</h3></div>
-                                <input type="text" name="v-mileage" placeholder="Vehicle Mileage">
+                                <div class="title"><h3>License Plate</h3></div>
+                                <input type="text" name="text" placeholder="Vehicle License Plate">
                             </div>
 
                             <div class="form-group col-lg-6 col-md-4 col-sm-6 col-xs-12">
                                 <div class="title"><h3>Appointment Date</h3></div>
                                 <div class="field-inner">
                                     <select class="custom-select-box">
-                                        <option>Preffered Date of Appointment</option>
-                                        <option>Preffered Date of Appointment</option>
-                                        <option>Preffered Date of Appointment</option>
-                                        <option>Preffered Date of Appointment</option>
+                                        <option>1-7</option>
+                                        <option>7-14</option>
+                                        <option>14-21</option>
+                                        <option>21-31</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group col-lg-6 col-md-4 col-sm-12 col-xs-12">
-                                <div class="title"><h3>Preffered Time Frame</h3></div>
-                                <div class="field-inner">
-                                    <select class="custom-select-box">
-                                        <option>Choose Time</option>
-                                        <option>Choose Time</option>
-                                        <option>Choose Time</option>
-                                        <option>Choose Time</option>
-                                    </select>
-                                </div>
+                                <div class="title"><h3>Vin</h3></div>
+                                <input type="text" name="text" placeholder="Vehicle Identification Number">
                             </div>
                         </div>
                     </div>
@@ -445,64 +452,8 @@
 
                             <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                 <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-4">
-                                    <label for="service-4">Heating & Cooling</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
                                     <input type="checkbox" name="shipping-option" id="service-5">
-                                    <label for="service-5">Oil, Lube</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-6">
-                                    <label for="service-6">Steering & Suspension</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-7">
-                                    <label for="service-7">Transmission Repair</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-8">
-                                    <label for="service-8">Battery Service</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-9">
-                                    <label for="service-9">Exhaust Systems</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-10">
-                                    <label for="service-10">Emissions</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-11">
-                                    <label for="service-11">Pvt Maintenance</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-12">
-                                    <label for="service-12">Tire Pressure</label>
+                                    <label for="service-5">Oil Change</label>
                                 </div>
                             </div>
 
@@ -512,45 +463,21 @@
                                     <label for="service-13">Tire Service</label>
                                 </div>
                             </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-14">
-                                    <label for="service-14">Other</label>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </form>
             </div><!--End Appointment Form-->
-
-            <!--Contact Form-->
             <div class="contact-form">
-                <div class="title"><h3>Contact Details</h3></div>
                 <form>
                     <div class="row clearfix">
-                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" name="name" placeholder="Enter Your Name">
-                        </div>
-
-                        <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                            <input type="email" name="email" placeholder="Enter Your Email Address">
-                        </div>
-
-                        <div class="form-group col-md-4 col-sm-12 col-xs-12">
-                            <input type="text" name="subject" placeholder="Enter Your Subject">
-                        </div>
-
-                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            <textarea placeholder="Additional Questions or Comments"></textarea>
-                        </div>
-
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             <button type="submit" class="theme-btn">Submit Now</button>
                         </div>
                     </div>
                 </form>
-            </div><!--End Contact Form-->
+            </div>
+            <!--Contact Form-->
+<!--End Contact Form-->
 
         </div>
     </div>

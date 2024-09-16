@@ -39,14 +39,12 @@ public class AuthenticationController {
             return "register";
         }
 
-
         try {
 
             User user = new User();
             user.setEmail(registerDto.getEmail());
             user.setPhoneNumber(registerDto.getPhoneNumber());
             user.setUsername(registerDto.getUsername());
-
             userService.createUser(user);
 
             model.addAttribute("successMessage", "Registration successful! Please check your email for login details.");
