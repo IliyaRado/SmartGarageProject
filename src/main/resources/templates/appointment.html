@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <title>Motor Expert - Auto Repair & Service HTML Template | Appointment</title>
 
-<!-- Stylesheets -->
-<link href="css/bootstrap.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
-<link href="css/responsive.css" rel="stylesheet">
-<!--Color Switcher Mockup-->
-<link href="css/color-switcher-design.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <!-- Custom Style CSS -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- Responsive CSS -->
+    <link th:href="@{/css/responsive.css}" rel="stylesheet">
+    <!-- Color Switcher Mockup CSS -->
+    <link th:href="@{/css/color-switcher-design.css}" rel="stylesheet">
 
+    <!-- Color Themes -->
+    <link id="theme-color-file" th:href="@{/css/color-themes/default-theme.css}" rel="stylesheet">
 
-<!--Color Themes-->
-<link id="theme-color-file" href="css/color-themes/default-theme.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link th:href="@{/images/favicon.png}" rel="shortcut icon" type="image/x-icon">
+    <link th:href="@{/images/favicon.png}" rel="icon" type="image/x-icon">
 
-<!--Favicon-->
-<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-<link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <!-- Responsive Meta Tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-<!-- Responsive -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+    <!-- HTML5 Shim for IE8 support -->
+    <!--[if lt IE 9]>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js}"></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/respond.js}"></script>
+    <![endif]-->
 </head>
 
 <body>
@@ -59,7 +66,7 @@
                <div class="main-box clearfix">
                     <!--Logo Box-->
                     <div class="logo-box">
-                        <div class="logo"><a href="index.html"><img src="images/logo-3.png" alt=""></a></div>
+                        <div class="logo"><a th:href="@{/}"><img src="images/logo-3.png" alt=""></a></div>
                     </div>
                     <!--Nav Outer-->
                     <div class="nav-outer clearfix">
@@ -74,29 +81,13 @@
 
 							<div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
 								<ul class="navigation clearfix">
-                                    <li class="dropdown"><a href="#">Home</a>
-                                        <ul>
-                                            <li><a href="index.html">Homepage One</a></li>
-                                            <li><a href="index-2.html">Homepage Two</a></li>
-                                            <li><a href="index-3.html">Homepage Three</a></li>
-											<li><a href="index-4.html">Homepage Four</a></li>
-                                            <li class="dropdown"><a href="#">Header Styles</a>
-                                                <ul>
-                                                    <li><a href="index.html">Header Style One</a></li>
-                                                    <li><a href="index-2.html">Header Style Two</a></li>
-                                                    <li><a href="index-3.html">Header Style Three</a></li>
-													<li><a href="index-4.html">Header Style Four</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                    <li class="dropdown"><a th:href="@{/}">Home</a>
+
                                     </li>
                                     <li class="current dropdown"><a href="#">About</a>
                                         <ul>
-                                            <li><a href="about.html">About</a></li>
+                                            <li><a th:href="@{/about}">About</a></li>
                                             <li><a href="appointment.html">Appointment</a></li>
-                                            <li><a href="team.html">Team</a></li>
-                                            <li><a href="price.html">Price</a></li>
-                                            <li><a href="coming-soon.html">Coming Soon</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown"><a href="#">Projects</a>
@@ -362,55 +353,57 @@
                 <h2>Make an <span>Appointment</span></h2>
                 <p>We are one of the leading auto repair shops serving customers in Tucson. All mechanic services<br> are performed by highly qualified mechanics.</p>
             </div>
-            <div class="contact-form">
-                <div class="title"><h3>Enter customer credentials</h3></div>
-                <form>
+
+            <!-- Combined Form Start -->
+            <form th:action="@{/appointment/submit}" method="post" th:object="${visit}">
+                <!-- Customer Credentials -->
+                <div class="contact-form">
+                    <div class="title"><h3>Enter customer credentials</h3></div>
                     <div class="row clearfix">
                         <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" name="name" placeholder="Enter username">
+                            <input type="text" th:field="*{username}" name="name" placeholder="Enter username">
                         </div>
-
                         <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                            <input type="email" name="email" placeholder="Enter User Email Address">
+                            <input type="email" th:field="*{email}" name="email" placeholder="Enter User Email Address">
                         </div>
                     </div>
-                </form>
-            </div>
-            <!-- Service form-->
-            <div class="service-form">
-                <form>
+                </div>
+
+                <!-- Vehicle Details Form -->
+                <div class="service-form">
                     <div class="vehicle-detail">
                         <div class="row clearfix">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <div class="title"><h3>Vehicle Year</h3></div>
                                 <div class="range-slider-one clearfix">
                                     <div class="vehicle-year-slider"></div>
-                                    <div class="input"><input type="text" class="property-amount" name="field-name" readonly></div>
+                                    <div class="input">
+                                        <input type="text" th:field="*{yearOfCreation}" class="property-amount" name="vehicleYear" readonly>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <div class="title"><h3>Vehicle Model</h3></div>
                                 <div class="field-inner">
-                                    <select class="custom-select-box">
-                                        <option>A3</option>
-                                        <option>A4</option>
-                                        <option>A6</option>
-                                        <option>S4</option>
-                                        <option>E270</option>
+                                    <select class="custom-select-box" th:field="*{modelId}" name="vehicleModel">
+                                        <option th:each="model : ${carModels}"
+                                                th:value="${model.id}"
+                                                th:text="${model.name}">
+                                        </option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                                <div class="title"><h3>License Plate</h3></div>
-                                <input type="text" name="text" placeholder="Vehicle License Plate">
+                                <div class="title" ><h3>License Plate</h3></div>
+                                <input type="text" th:field="*{licensePlate}" name="licensePlate" placeholder="Vehicle License Plate">
                             </div>
 
                             <div class="form-group col-lg-6 col-md-4 col-sm-6 col-xs-12">
                                 <div class="title"><h3>Appointment Date</h3></div>
                                 <div class="field-inner">
-                                    <select class="custom-select-box">
+                                    <select class="custom-select-box" name="appointmentDate">
                                         <option>1-7</option>
                                         <option>7-14</option>
                                         <option>14-21</option>
@@ -421,66 +414,46 @@
 
                             <div class="form-group col-lg-6 col-md-4 col-sm-12 col-xs-12">
                                 <div class="title"><h3>Vin</h3></div>
-                                <input type="text" name="text" placeholder="Vehicle Identification Number">
+                                <input type="text" th:field="*{vin}" name="vin" placeholder="Vehicle Identification Number">
                             </div>
                         </div>
                     </div>
 
+                    <!-- Services Needed -->
                     <div class="services-needed">
                         <div class="title"><h3>Select Services Needed</h3></div>
                         <div class="row clearfix">
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <!-- Iterate over the services list -->
+                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12"
+                                 th:each="service : ${services}">
                                 <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-1">
-                                    <label for="service-1">Air Conditioning </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-2">
-                                    <label for="service-2">Brakes Repair </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-3">
-                                    <label for="service-3">Engine Diagnostic</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-5">
-                                    <label for="service-5">Oil Change</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="check-box">
-                                    <input type="checkbox" name="shipping-option" id="service-13">
-                                    <label for="service-13">Tire Service</label>
+                                    <input type="checkbox"
+                                           th:id="'service-' + ${service.id}"
+                                           th:name="serviceIds"
+                                           th:value="${service.id}">
+                                    <label th:for="'service-' + ${service.id}">
+                                        <span th:text="${service.name}"></span>
+                                        (<span th:text="${service.price}"></span> $)
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div><!--End Appointment Form-->
-            <div class="contact-form">
-                <form>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="contact-form">
                     <div class="row clearfix">
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             <button type="submit" class="theme-btn">Submit Now</button>
                         </div>
                     </div>
-                </form>
-            </div>
-            <!--Contact Form-->
-<!--End Contact Form-->
-
+                </div>
+            </form>
+            <!-- Combined Form End -->
         </div>
     </div>
+
     <!--End Appointment Page-->
 
     <!-- Subscribe Section -->

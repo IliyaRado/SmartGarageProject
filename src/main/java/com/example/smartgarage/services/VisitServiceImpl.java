@@ -1,16 +1,11 @@
 package com.example.smartgarage.services;
 
 import com.example.smartgarage.exceptions.EntityNotFoundException;
-import com.example.smartgarage.models.Service;
-import com.example.smartgarage.models.User;
-import com.example.smartgarage.models.Vehicle;
-import com.example.smartgarage.models.Visit;
+import com.example.smartgarage.models.*;
+import com.example.smartgarage.models.dtos.AppointmentDto;
 import com.example.smartgarage.models.dtos.VisitReportDto;
 import com.example.smartgarage.models.dtos.VisitUpdateDto;
-import com.example.smartgarage.repositories.ServiceRepository;
-import com.example.smartgarage.repositories.UserRepository;
-import com.example.smartgarage.repositories.VehicleRepository;
-import com.example.smartgarage.repositories.VisitRepository;
+import com.example.smartgarage.repositories.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,13 +18,15 @@ public class VisitServiceImpl implements VisitService {
     private final VehicleRepository vehicleRepository;
     private final ServiceRepository serviceRepository;
     private final CurrencyConversionService currencyConversionService;
+    private final ModelRepository modelRepository;
 
-    public VisitServiceImpl(VisitRepository visitRepository, UserRepository userRepository, VehicleRepository vehicleRepository, ServiceRepository serviceRepository, CurrencyConversionService currencyConversionService) {
+    public VisitServiceImpl(VisitRepository visitRepository, UserRepository userRepository, VehicleRepository vehicleRepository, ServiceRepository serviceRepository, CurrencyConversionService currencyConversionService, ModelRepository modelRepository) {
         this.visitRepository = visitRepository;
         this.userRepository = userRepository;
         this.vehicleRepository = vehicleRepository;
         this.serviceRepository = serviceRepository;
         this.currencyConversionService = currencyConversionService;
+        this.modelRepository = modelRepository;
     }
 
     @Override
@@ -126,5 +123,32 @@ public class VisitServiceImpl implements VisitService {
         report.setCurrencyCode(currencyCode);
 
         return report;
+    }
+
+    @Override
+    public Visit createVisit(AppointmentDto appointmentDto) {
+        User user = userRepository.findByUsername(appointmentDto.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("User", "Username", appointmentDto.getUsername()));
+        Model model = modelRepository.findById(appointmentDto.getModelId())
+                .orElseThrow(() -> new EntityNotFoundException("Model", appointmentDto.getModelId()));
+        Vehicle vehicle = new Vehicle();
+        vehicle.setLicensePlate(appointmentDto.getLicensePlate());
+        vehicle.setVin(appointmentDto.getVin());
+        vehicle.setYearOfCreation(appointmentDto.getYearOfCreation());
+        vehicle.setModel(model);
+        vehicle.setUser(user);
+        try {
+            vehicle = vehicleRepository.save(vehicle);
+            var visit= createVisit(user.getId(), vehicle.getId(), appointmentDto.getServiceIds());
+            generateVisitReport(visit.getId(), "EUR");
+            return visit;
+        } catch (Exception e) {
+            System.out.println("VisitServiceImpl.createVisit: -143 line should be refactored" + e.getMessage());
+            System.out.println(e.getMessage());
+        }
+//todo: implement the start and end date and generateVisitReport() fix
+
+        return null;
+
     }
 }
