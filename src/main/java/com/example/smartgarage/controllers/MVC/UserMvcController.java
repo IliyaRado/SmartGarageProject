@@ -27,4 +27,10 @@ public class UserMvcController {
     public String showLoginForm(Model model) {
         return "login";
     }
+
+    @GetMapping("/register")
+    public String showRegisterForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
 }

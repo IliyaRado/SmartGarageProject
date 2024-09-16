@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Login</title>
+    <title>Register</title>
 
     <!-- Stylesheets -->
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -75,10 +75,10 @@
     <section class="page-title" style="background-image:url(/images/background/8.webp);">
         <div class="auto-container">
             <div class="inner-container clearfix">
-                <h1>Login</h1>
+                <h1>Register</h1>
                 <ul class="bread-crumb clearfix">
                     <li><a th:href="@{/}">Home</a></li>
-                    <li>Login</li>
+                    <li>Register</li>
                 </ul>
             </div>
         </div>
@@ -86,48 +86,40 @@
     <!-- End Page Title -->
 
     <!-- Login Section -->
-    <section class="login-section">
+    <section class="login-section"> <!-- Changing to login-section to match login form -->
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="column col-lg-6 col-md-12 col-sm-12">
-                    <!-- Login Form -->
-                    <h2>Login</h2>
-                    <div class="login-form">
-                        <!-- Login Form -->
-                        <form method="post" th:action="@{/login}" th:object="${login}">
+                    <!-- Register Form -->
+                    <h2>Register</h2>
+                    <div class="login-form"> <!-- Changing to login-form -->
+                        <!-- Register Form -->
+                        <form method="post" th:action="@{/auth/register}" th:object="${registerDto}">
                             <div class="form-group">
-                                <label for="username">Enter Your Username</label>
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" th:field="*{email}" placeholder="Your Email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username">Username</label>
                                 <input type="text" id="username" th:field="*{username}" placeholder="Username" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="password">Enter Your Password</label>
-                                <input type="password" id="password" th:field="*{password}" placeholder="Password" required>
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Phone Number" required>
                             </div>
 
                             <div class="form-group text-right">
-                                <button class="theme-btn btn-style-one" type="submit">LOGIN</button>
-                            </div>
-                            <div class="pull-left">
-                                <div class="form-group remember">
-
-                                    <a href="#" class="psw">Lost your password?</a>
-                                </div>
+                                <button class="theme-btn btn-style-one" type="submit">REGISTER</button>
                             </div>
                         </form>
-
-                        <!-- Display login error message, if any -->
-                        <div th:if="${loginError}" class="alert alert-danger">
-                            <p th:text="${loginError}"></p>
-                        </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>
-    <!-- End Login Section -->
+
 
     <!-- Footer -->
     <footer class="main-footer" style="background-image: url(/images/background/10.webp);">
