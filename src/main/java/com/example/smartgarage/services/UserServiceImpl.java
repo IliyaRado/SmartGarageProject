@@ -100,13 +100,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRole(role);
         User savedUser = userRepository.save(user);
 
-        emailService.sendEmail(
+        emailService.sendWelcomeEmail(
                 user.getEmail(),
-                "Welcome to SmartGarage",
-                String.format(
-                        "Your username is: %s\nYour password is: %s\nRemember to keep your Username and Password secure.",
-                        user.getUsername(), generatedPassword
-                )
+                user.getUsername(),
+                generatedPassword
         );
 
         return savedUser;
@@ -178,14 +175,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return List.of(new SimpleGrantedAuthority(user.getRole().getType()));
     }
 
+    @Override
     public void sendPasswordResetLink(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User", "email", email));
         String token = UUID.randomUUID().toString();
         PasswordResetToken resetToken = new PasswordResetToken();
         resetToken.setToken(token);
         resetToken.setUser(user);
-        resetToken.setExpiryDate(new Date(System.currentTimeMillis() + 3600 * 1000));
+        resetToken.setExpiryDate(new Date(System.currentTimeMillis() + 3600 * 1000));  // 1 hour expiry
         tokenRepository.save(resetToken);
+
         emailService.sendPasswordResetEmail(user.getEmail(), token);
     }
 
