@@ -93,6 +93,17 @@
                     <!-- Register Form -->
                     <h2>Register</h2>
                     <div class="login-form"> <!-- Changing to login-form -->
+
+                        <!-- Display error message -->
+                        <div th:if="${errorMessage}" class="alert alert-danger">
+                            <p th:text="${errorMessage}"></p>
+                        </div>
+
+                        <!-- Display success message -->
+                        <div th:if="${successMessage}" class="alert alert-success">
+                            <p th:text="${successMessage}"></p>
+                        </div>
+
                         <!-- Register Form -->
                         <form method="post" th:action="@{/auth/register}" th:object="${registerDto}">
                             <div class="form-group">

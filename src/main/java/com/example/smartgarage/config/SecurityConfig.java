@@ -37,8 +37,14 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout(logout -> logout
-                        .permitAll()
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/auth/logout") // URL за логаут
+                                .invalidateHttpSession(true) // Изтриване на сесията
+                                .clearAuthentication(true) // Изчистване на аутентикацията
+                                .deleteCookies("JSESSIONID") // Изтриване на бисквитките, свързани със сесията
+                                .logoutSuccessUrl("/") // Пренасочване към /home след успешен логаут
+                                .permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable);
 
