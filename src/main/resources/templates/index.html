@@ -82,6 +82,7 @@
 							<li><a th:href="@{/about}">About</a></li>
 							<li><a th:href="@{contact.html}">Contact</a></li>
 							<li><a th:href="@{/login}" class="login-btn">Login</a></li>
+							<li><a th:href="@{/auth/logout}">Logout</a></li>
 						</ul>
                     </div>
                 </div>
@@ -310,6 +311,8 @@
 								<li><a href="contact.html">Contact</a></li>
 
 								<li th:if="${loggedInUser == null}"><a th:href="@{/login}">Login</a></li>
+
+								<li><a th:href="@{/auth/logout}">Logout</a></li>
 							</ul>
 						</div>
 
