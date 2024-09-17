@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,24 +31,32 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login", "/resources/", "/static/", "/auth/register").permitAll()
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/login","/register", "/auth/register", "/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                        .requestMatchers("/myCards").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("CUSTOMER")
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-                .logout(logout ->
-                        logout
-                                .logoutUrl("/auth/logout") // URL за логаут
-                                .invalidateHttpSession(true) // Изтриване на сесията
-                                .clearAuthentication(true) // Изчистване на аутентикацията
-                                .deleteCookies("JSESSIONID") // Изтриване на бисквитките, свързани със сесията
-                                .logoutSuccessUrl("/") // Пренасочване към /home след успешен логаут
-                                .permitAll()
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
                 )
-                .csrf(AbstractHttpConfigurer::disable);
+                // Enable CSRF and customize it as needed
+                .csrf(csrf -> csrf
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())  // Sets the CSRF token in request attributes
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())  // Store CSRF token in cookies
+                );
 
         return http.build();
     }
@@ -61,15 +71,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(BCRYPT_STRENGTH);
     }
-
 }
-// .requestMatchers("/static/**").permitAll()
-// .requestMatchers("/myCards").authenticated()
-// .requestMatchers("/api/users/**").authenticated()
-// .requestMatchers("/api/users").permitAll()
-// .requestMatchers("/api/vehicles/**").permitAll()
-// .requestMatchers("/api/vehicles").permitAll()
-// .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("CUSTOMER")
-// .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("CUSTOMER")
-// .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("CUSTOMER")
-// .anyRequest().permitAll()

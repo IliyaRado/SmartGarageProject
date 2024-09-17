@@ -74,18 +74,33 @@
                 <!--Copyright Text-->
                 <div class="copyright-text-box">Autocare is your one-stop solution <br> for all auto repair needs!</div>
 
-            	<div class="main-nav-box">
-                	<div class="main-nav">
+				<div class="main-nav-box">
+					<div class="main-nav">
 						<ul class="navigation">
 							<li><a th:href="@{/}">Home</a></li>
-							<li><a th:href="@{services.html}">Services</a></li>
+							<li><a th:href="@{/services}">Services</a></li>
 							<li><a th:href="@{/about}">About</a></li>
-							<li><a th:href="@{contact.html}">Contact</a></li>
-							<li><a th:href="@{/login}" class="login-btn">Login</a></li>
-							<li><a th:href="@{/auth/logout}">Logout</a></li>
+							<li><a th:href="@{/contact}">Contact</a></li>
+
+							<!-- Show Register button always -->
+							<li>
+								<a th:href="@{/register}" class="login-btn">Register</a>
+							</li>
+
+							<!-- Show Login button if the user is NOT logged in -->
+							<li th:if="${loggedInUser == null}">
+								<a th:href="@{/login}" class="login-btn">Login</a>
+							</li>
+
+							<!-- Show Logout button if the user IS logged in -->
+							<li th:if="${loggedInUser != null}" th:action="@{/auth/logout}">
+									<a class="login-btn">Logout</a>
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+							</li>
 						</ul>
-                    </div>
-                </div>
+
+					</div>
+				</div>
             </div>
 
 
@@ -257,26 +272,23 @@
 	<div class="main-content-box">
 
 		<!-- Main Header-->
-		<header class="fixed-top-bar">
+        <header class="fixed-top-bar">
 
-			<div class="auto-container">
-			   <div class="main-box clearfix">
+            <div class="auto-container">
+                <div class="main-box clearfix">
 
-					<!--outer Box-->
-					<div class="outer-box">
+                    <!--outer Box-->
+                    <div class="outer-box">
 
-						<!-- Cart Btn -->
+                        <!-- Fixed Search Box Btn -->
+                        <div class="fixed-search-box-btn"><span class="fa fa-search"></span></div>
 
+                        <a href="services.html" class="theme-btn btn-style-one">Booking Now</a>
 
-						<!-- Fixed Search Box Btn -->
-						<div class="fixed-search-box-btn"><span class="fa fa-search"></span></div>
+                    </div>
+                    <!--End outer Box-->
 
-						<a href="services.html" class="theme-btn btn-style-one">Booking Now</a>
-
-					</div>
-					<!--End outer Box-->
-
-					<!-- Main Menu -->
+                    <!-- Main Menu -->
 					<nav class="main-menu navbar-expand-md">
 						<div class="navbar-header">
 							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -288,15 +300,12 @@
 
 						<div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
 							<ul class="navigation clearfix">
-							 <li class="current"><a th:href="@{/}">Home</a>
-
-								</li>
-								<li class="dropdown"><a th:href="@{/}">About</a>
+								<li class="current"><a th:href="@{/}">Home</a></li>
+								<li class="dropdown"><a th:href="@{/about}">About</a>
 									<ul>
 										<li><a th:href="@{/about}">About</a></li>
 										<li><a th:href="@{/team.html}">Team</a></li>
 										<li><a th:href="@{/price.html}">Price</a></li>
-
 									</ul>
 								</li>
 
@@ -308,21 +317,37 @@
 								</li>
 
 								<li><a th:href="@{/contact}">Contact</a></li>
-								<li><a th:href="@{/appointment}">Appointment</a> </li>
+								<li><a th:href="@{/appointment}">Appointment</a></li>
 
-								<li th:if="${loggedInUser == null}"><a th:href="@{/login}">Login</a></li>
+								<!-- Show Register button always -->
+								<li>
+									<a th:href="@{/auth/register}">Register</a>
+								</li>
 
-								<li><a th:href="@{/auth/logout}">Logout</a></li>
-								<li><a th:href="@{/auth/register}">Register</a></li>
+								<!-- Show Login button if the user is NOT logged in -->
+								<li th:if="${loggedInUser == null}">
+									<a th:href="@{/login}">Login</a>
+								</li>
+
+								<!-- Show Logout button if the user IS logged in -->
+								<li th:if="${loggedInUser != null}">
+									<a><form th:action="@{/auth/logout}" method="post">
+										<button>LOGOUT</button>
+									</form></a>
+										<!-- Include CSRF token -->
+										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+								</li>
 							</ul>
 						</div>
-
 					</nav>
-					<!-- Main Menu End-->
 
-				</div>
-			</div>
-		</header>
+                    <!-- Main Menu End-->
+
+                </div>
+            </div>
+        </header>
+
 		<!--End Main Header -->
 
 		<!-- Updated Services Section -->
@@ -976,14 +1001,13 @@
 						<div class="content-box">
 							<h2>About Us</h2>
 							<p class="text">Core values are the fundamental beliefs of a person or organization. The core values are the guiding prin ples that dictate behavior and action suas labore saperet has there any quote for write lorem percit latineu.</p>
-							<a href="#" class="theme-btn btn-style-one">Consultation</a>
 						</div>
 						<div class="contact-information">
 							<h2>Contact Info</h2>
 							<ul class="sidebar-list-style">
-								<li><span class="icon flaticon-placeholder"></span>Chicago 12, Melborne City, USA</li>
-								<li><span class="icon flaticon-phone"></span>(111) 111-111-1111</li>
-								<li><span class="icon fa fa-envelope-o"></span>motorgarage_ir@abv.bg</li>
+								<li><span class="icon flaticon-placeholder"></span>Sofia, Bulgaria</li>
+								<li><span class="icon flaticon-phone"></span>+359 887 11 1111</li>
+								<li><span class="icon fa fa-envelope-o"></span>smartgarage_ir@abv.bg</li>
 								<li><span class="icon flaticon-stopwatch"></span>Week Days: 09.00 to 18.00 Sunday: Closed</li>
 							</ul>
 						</div>

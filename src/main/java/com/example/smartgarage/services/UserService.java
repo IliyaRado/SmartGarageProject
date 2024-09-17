@@ -21,4 +21,5 @@ public interface UserService {
     void delete(int id);
     void sendPasswordResetLink(String email);
     void resetPassword(String token, String password);
+
 }
