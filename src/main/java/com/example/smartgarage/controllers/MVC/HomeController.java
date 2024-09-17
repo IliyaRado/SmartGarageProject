@@ -38,45 +38,30 @@ public class HomeController extends BaseController{
 
         return "contact";
     }
-    @GetMapping("/services")
-    public String showServicesPage() {
-
-        return "services";
-    }
-    @GetMapping("/service-detail")
-    public String showSingleServicePage() {
-
-        return "service-detail";
-    }
 
     @GetMapping("/login")
     public String login(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
-            return "redirect:/"; // Redirect if already logged in
+            return "redirect:/";
         }
         model.addAttribute("login", new LoginDto());
-        return "login"; // Show login page if not authenticated
+        return "login";
     }
 
 
     @PostMapping("/login")
     public String loginPost(@ModelAttribute("login") LoginDto loginDto, Model model) {
         try {
-            // Create authentication token with username and password from the form
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
-            // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(authToken);
 
-            // Set the authentication in the security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // Redirect to home page (or dashboard) upon successful login
             return "redirect:/";
         } catch (Exception e) {
-            // If authentication fails, return to the login page with an error message
             model.addAttribute("loginError", "Invalid username or password.");
             return "login";
         }

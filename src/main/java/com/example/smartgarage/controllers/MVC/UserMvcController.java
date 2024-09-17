@@ -17,11 +17,6 @@ public class UserMvcController extends BaseController{
         this.userService = userService;
     }
 
-    /*@GetMapping("/register")
-    public String showRegisterForm(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }*/
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {

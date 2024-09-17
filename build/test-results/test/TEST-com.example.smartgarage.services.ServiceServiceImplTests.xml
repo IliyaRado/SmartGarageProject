@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.smartgarage.services.ServiceServiceImplTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-09-17T23:03:45" hostname="VAGABONT-J1478" time="3.481">
+  <properties/>
+  <testcase name="testUpdateService()" classname="com.example.smartgarage.services.ServiceServiceImplTests" time="3.365"/>
+  <testcase name="testDeleteService()" classname="com.example.smartgarage.services.ServiceServiceImplTests" time="0.047"/>
+  <testcase name="testGetServiceById()" classname="com.example.smartgarage.services.ServiceServiceImplTests" time="0.023"/>
+  <testcase name="testCreateService()" classname="com.example.smartgarage.services.ServiceServiceImplTests" time="0.02"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
