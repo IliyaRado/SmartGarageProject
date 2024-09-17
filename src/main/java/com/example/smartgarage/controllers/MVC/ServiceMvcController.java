@@ -13,6 +13,11 @@ public class ServiceMvcController {
         return "services";
     }
 
+    @GetMapping("/details")
+    public String showServiceDetails() {
+        return "service-detail";
+    }
+
 }
 
 
