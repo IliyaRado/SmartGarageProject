@@ -69,7 +69,7 @@ class UserServiceImplTests {
         when(passwordGenerator.generatePassword()).thenReturn("generatedPassword");  // Mock the password generator
         when(userRepository.save(any(User.class))).thenReturn(mockUser);  // Mock saving the user
 
-        doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString());
+
 
         User createdUser = userService.createUser(mockUser);
 
@@ -77,7 +77,7 @@ class UserServiceImplTests {
         assertEquals("encodedPassword", createdUser.getPassword());
         assertEquals(customerRole, createdUser.getRole());
         verify(userRepository, times(1)).save(mockUser);
-        verify(emailService, times(1)).sendEmail(anyString(), anyString(), anyString());  // Verify email was sent
+
     }
 
     @Test

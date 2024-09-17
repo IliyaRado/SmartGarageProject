@@ -63,4 +63,8 @@ public class ServiceServiceImpl implements ServiceService{
     public void delete(int id) {
         serviceRepository.deleteById(id);
     }
+
+    public Service findServiceById(int i) {
+        return serviceRepository.findById(i).orElse(null);
+    }
 }

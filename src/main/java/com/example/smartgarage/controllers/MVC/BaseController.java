@@ -22,6 +22,6 @@ public class BaseController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return userService.findUserByUsername(userDetails.getUsername());
         }
-        return null; // If not authenticated, return null
+        return null;
     }
 }
