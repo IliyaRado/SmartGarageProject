@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
     private final AuthenticationManager authenticationManager;
 
     public HomeController(AuthenticationManager authenticationManager) {
@@ -41,8 +41,12 @@ public class HomeController {
 
     @GetMapping("/login")
     public String login(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication.getPrincipal() instanceof String)) {
+            return "redirect:/"; // Redirect if already logged in
+        }
         model.addAttribute("login", new LoginDto());
-        return "login";
+        return "login"; // Show login page if not authenticated
     }
 
 

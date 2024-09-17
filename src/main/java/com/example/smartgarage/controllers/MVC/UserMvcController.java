@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/users")
-public class UserMvcController {
+public class UserMvcController extends BaseController{
 
     private final UserService userService;
 

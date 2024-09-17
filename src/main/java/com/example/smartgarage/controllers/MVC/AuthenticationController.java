@@ -59,10 +59,6 @@ public class AuthenticationController {
         }
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        return "redirect:/";
-    }
 
     @GetMapping("/request-reset")
     public String showPasswordResetRequestForm(Model model) {
