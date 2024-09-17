@@ -102,6 +102,7 @@ public class VisitServiceImpl implements VisitService {
         Visit visit = visitRepository.findById(visitId)
                 .orElseThrow(() -> new EntityNotFoundException("Visit", visitId));
 
+
         List<Service> services = visit.getServices();
         if (services.isEmpty()) {
             throw new RuntimeException("No services found for this visit.");
@@ -111,11 +112,12 @@ public class VisitServiceImpl implements VisitService {
                 .mapToDouble(Service::getPrice)
                 .sum();
 
-        if (!currencyCode.equalsIgnoreCase("EUR")) {
+        if (!currencyCode.equalsIgnoreCase("BGN")) {
             totalPrice = currencyConversionService.convertCurrency(totalPrice, currencyCode);
         }
 
         VisitReportDto report = new VisitReportDto();
+        report.setId(visit.getId());
         report.setCustomer(visit.getUser());
         report.setVehicle(visit.getVehicle());
         report.setServices(visit.getServices());
@@ -140,7 +142,7 @@ public class VisitServiceImpl implements VisitService {
         try {
             vehicle = vehicleRepository.save(vehicle);
             var visit= createVisit(user.getId(), vehicle.getId(), appointmentDto.getServiceIds());
-            generateVisitReport(visit.getId(), "EUR");
+            generateVisitReport(visit.getId(), "BGN");
             return visit;
         } catch (Exception e) {
             System.out.println("VisitServiceImpl.createVisit: -143 line should be refactored" + e.getMessage());

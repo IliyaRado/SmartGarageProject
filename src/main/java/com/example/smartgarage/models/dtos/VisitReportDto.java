@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class VisitReportDto {
-
+    private int id;
     private User customer;
     private Vehicle vehicle;
     private List<Service> services;

@@ -12,6 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 public class AppointmentDto {
+
+    private int id;
+
     @NotEmpty
     private String username;
 
