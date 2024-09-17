@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/vehicles/**").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.PUT, "/api/vehicles/**").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE, "/api/vehicles/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin

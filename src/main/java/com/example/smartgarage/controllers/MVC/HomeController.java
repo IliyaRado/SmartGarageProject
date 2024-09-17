@@ -38,6 +38,16 @@ public class HomeController extends BaseController{
 
         return "contact";
     }
+    @GetMapping("/services")
+    public String showServicesPage() {
+
+        return "services";
+    }
+    @GetMapping("/service-detail")
+    public String showSingleServicePage() {
+
+        return "service-detail";
+    }
 
     @GetMapping("/login")
     public String login(Model model) {
