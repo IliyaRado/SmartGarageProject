@@ -51,14 +51,7 @@
                 <div class="nav-toggler"><button class="toggler-btn navSidebar-button"><span class="bar bar-one"></span><span class="bar bar-two"></span><span class="bar bar-three"></span></button></div>
 
                 <!--Social Links-->
-                <div class="social-links">
-                    <ul class="clearfix">
-                        <li><a th:href="@{#}"><span class="fab fa-facebook-f"></span></a></li>
-                        <li><a th:href="@{#}"><span class="fab fa-twitter"></span></a></li>
-                        <li><a th:href="@{#}"><span class="fab fa-linkedin"></span></a></li>
-                        <li><a th:href="@{#}"><span class="fab fa-instagram"></span></a></li>
-                    </ul>
-                </div>
+
 
             </div>
 
@@ -132,7 +125,7 @@
 						<h3>Subscribe</h3>
 						<!--Subscribe Form-->
 						<div class="subscribe-form-two">
-							<form method="post" action="contact.html">
+							<form method="post" action="@{/contact}">
 								<div class="form-group">
 									<input type="email" name="email" value="" placeholder="Email Address " required>
 									<button type="submit" class="theme-btn btn-style-one">Subscribe</button>
@@ -141,18 +134,7 @@
 						</div>
 					</div>
 					<!-- Column -->
-					<div class="column col-lg-4 col-md-4 col-sm-12">
-						<div class="video-inner-column">
-							<h3>About Us</h3>
-							<!-- Video Box Two -->
-							<div class="video-box-two">
-								<div class="image">
-									<a href="https://www.youtube.com/watch?v=kxPCFljwJws" class="lightbox-image overlay-box"><span class="flaticon-play-button"><i class="ripple"></i></span></a>
-									<img th:src="@{images/resource/video-img-4.jpg}" alt="">
-								</div>
-							</div>
-						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
@@ -195,7 +177,7 @@
 								<div class="title">Welcome to our</div>
 								<h2>Smart GARAGE</h2>
 								<div class="text">We will make you love your car. We specialize in complete auto <br> care at a low cost and in a professional manner.</div>
-								<a th:href="@{services.html}" class="theme-btn btn-style-one">Booking Now</a>
+
 							</div>
                         </div>
 
@@ -311,8 +293,8 @@
 
 								<li class="dropdown"><a href="#">Services</a>
 									<ul>
-										<li><a href="services.html">Services</a></li>
-										<li><a href="service-detail.html">Single Service</a></li>
+										<li><a th:href="@{/services}">Services</a></li>
+										<li><a th:href="@{/services/details}">Single Service</a></li>
 									</ul>
 								</li>
 
@@ -403,7 +385,7 @@
 																</ul>
 															</div>
 														</div>
-														<a href="services.html" class="theme-btn btn-style-one">Read More </a>
+														<a th:href="@{/services}" class="theme-btn btn-style-one">Read More </a>
 													</div>
 												</div>
 
@@ -444,7 +426,7 @@
 																</ul>
 															</div>
 														</div>
-														<a href="services.html" class="theme-btn btn-style-one">Read More </a>
+														<a th:href="@{/services}" class="theme-btn btn-style-one">Read More </a>
 													</div>
 												</div>
 
@@ -485,7 +467,7 @@
 																</ul>
 															</div>
 														</div>
-														<a href="services.html" class="theme-btn btn-style-one">Read More </a>
+														<a th:href="@{/services}" class="theme-btn btn-style-one">Read More </a>
 													</div>
 												</div>
 
@@ -883,14 +865,7 @@
 								<div class="widget-content">
 									<h2>More About Us</h2>
 									<div class="text">Driven by passion, powered by precision, and committed to excellence — we take care of your car as if it were our own.</div>
-									<ul class="social-icon">
-										<li class="follow">Follow Us:</li>
-										<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-										<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-										<li><a href="#"><i class="fab fa-pinterest"></i></a></li>
-										<li><a href="#"><i class="fab fa-dribbble"></i></a></li>
-									</ul>
+									
 								</div>
 							</div>
 						</div>
