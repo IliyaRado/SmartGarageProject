@@ -33,6 +33,12 @@ public class HomeController {
         return "about";
     }
 
+    @GetMapping("/contact")
+    public String showContactPage() {
+
+        return "contact";
+    }
+
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("login", new LoginDto());

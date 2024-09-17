@@ -49,7 +49,7 @@ public class AuthenticationController {
             userService.createUser(user);
 
             model.addAttribute("successMessage", "Registration successful! Please check your email for login details.");
-            return "redirect:/login";
+            return "redirect:/appointment";
         } catch (DuplicateEntityException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "register";

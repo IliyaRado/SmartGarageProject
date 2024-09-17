@@ -294,7 +294,6 @@
 								<li class="dropdown"><a th:href="@{/}">About</a>
 									<ul>
 										<li><a th:href="@{/about}">About</a></li>
-										<li><a th:href="@{/appointment}">Appointment</a></li>
 										<li><a th:href="@{/team.html}">Team</a></li>
 										<li><a th:href="@{/price.html}">Price</a></li>
 
@@ -308,11 +307,13 @@
 									</ul>
 								</li>
 
-								<li><a href="contact.html">Contact</a></li>
+								<li><a th:href="@{/contact}">Contact</a></li>
+								<li><a th:href="@{/appointment}">Appointment</a> </li>
 
 								<li th:if="${loggedInUser == null}"><a th:href="@{/login}">Login</a></li>
 
 								<li><a th:href="@{/auth/logout}">Logout</a></li>
+								<li><a th:href="@{/auth/register}">Register</a></li>
 							</ul>
 						</div>
 
@@ -356,15 +357,15 @@
 								<div class="tabs-content">
 
 									<!-- Tab -->
-									<div class="tab" id="prod-general">
+									<div class="tab active-tab" id="prod-general">
 										<div class="content">
 											<div class="row clearfix">
 
 												<!-- Content Column -->
 												<div class="content-column col-lg-6 col-md-6 col-sm-12">
 													<div class="inner-column">
-														<h2>General Mintenace</h2>
-														<div class="text">Volutpat sodales, mauris erat rutrum deserunt sed pharetra mollis, nunc leo eu maecenas nascetur duis viverra nam vitae</div>
+														<h2>General Maintenance</h2>
+														<div class="text">From oil changes to tire rotations, we handle all your vehicle's essential upkeep to ensure peak performance.</div>
 														<div class="row clearfix">
 															<div class="column col-lg-6 col-md-6 col-sm-12">
 																<ul class="list-style-three">
@@ -397,15 +398,15 @@
 									</div>
 
 									<!--Tab  / Active Tab -->
-									<div class="tab active-tab" id="prod-transmission">
+									<div class="tab" id="prod-transmission">
 										<div class="content">
 											<div class="row clearfix">
 
 												<!-- Content Column -->
 												<div class="content-column col-lg-6 col-md-6 col-sm-12">
 													<div class="inner-column">
-														<h2>General Mintenace</h2>
-														<div class="text">Volutpat sodales, mauris erat rutrum deserunt sed pharetra mollis, nunc leo eu maecenas nascetur duis viverra nam vitae</div>
+														<h2>General Maintenance</h2>
+														<div class="text">From oil changes to tire rotations, we handle all your vehicle's essential upkeep to ensure peak performance.</div>
 														<div class="row clearfix">
 															<div class="column col-lg-6 col-md-6 col-sm-12">
 																<ul class="list-style-three">
@@ -445,8 +446,8 @@
 												<!-- Content Column -->
 												<div class="content-column col-lg-6 col-md-6 col-sm-12">
 													<div class="inner-column">
-														<h2>General Mintenace</h2>
-														<div class="text">Volutpat sodales, mauris erat rutrum deserunt sed pharetra mollis, nunc leo eu maecenas nascetur duis viverra nam vitae</div>
+														<h2>General Maintenance</h2>
+														<div class="text">From oil changes to tire rotations, we handle all your vehicle's essential upkeep to ensure peak performance.</div>
 														<div class="row clearfix">
 															<div class="column col-lg-6 col-md-6 col-sm-12">
 																<ul class="list-style-three">
@@ -483,37 +484,6 @@
 										<div class="content">
 											<div class="row clearfix">
 
-												<!-- Content Column -->
-												<div class="content-column col-lg-6 col-md-6 col-sm-12">
-													<div class="inner-column">
-														<h2>General Mintenace</h2>
-														<div class="text">Volutpat sodales, mauris erat rutrum deserunt sed pharetra mollis, nunc leo eu maecenas nascetur duis viverra nam vitae</div>
-														<div class="row clearfix">
-															<div class="column col-lg-6 col-md-6 col-sm-12">
-																<ul class="list-style-three">
-																	<li>Oil Changes</li>
-																	<li>Fluid Services</li>
-																</ul>
-															</div>
-															<div class="column col-lg-6 col-md-6 col-sm-12">
-																<ul class="list-style-three">
-																	<li>Filter Replacement</li>
-																	<li>Diesel Auto Repair</li>
-																</ul>
-															</div>
-														</div>
-														<a href="services.html" class="theme-btn btn-style-one">Read More </a>
-													</div>
-												</div>
-
-												<!-- Image Column -->
-												<div class="image-column col-lg-6 col-md-6 col-sm-12">
-													<div class="inner-column">
-														<div class="image">
-															<img th:src="@{images/resource/service-7.webp}" alt="" />
-														</div>
-													</div>
-												</div>
 
 											</div>
 										</div>
@@ -524,37 +494,6 @@
 										<div class="content">
 											<div class="row clearfix">
 
-												<!-- Content Column -->
-												<div class="content-column col-lg-6 col-md-6 col-sm-12">
-													<div class="inner-column">
-														<h2>General Mintenace</h2>
-														<div class="text">Volutpat sodales, mauris erat rutrum deserunt sed pharetra mollis, nunc leo eu maecenas nascetur duis viverra nam vitae</div>
-														<div class="row clearfix">
-															<div class="column col-lg-6 col-md-6 col-sm-12">
-																<ul class="list-style-three">
-																	<li>Oil Changes</li>
-																	<li>Fluid Services</li>
-																</ul>
-															</div>
-															<div class="column col-lg-6 col-md-6 col-sm-12">
-																<ul class="list-style-three">
-																	<li>Filter Replacement</li>
-																	<li>Diesel Auto Repair</li>
-																</ul>
-															</div>
-														</div>
-														<a href="services.html" class="theme-btn btn-style-one">Read More </a>
-													</div>
-												</div>
-
-												<!-- Image Column -->
-												<div class="image-column col-lg-6 col-md-6 col-sm-12">
-													<div class="inner-column">
-														<div class="image">
-															<img th:src="@{images/resource/service-7.webp}" alt="" />
-														</div>
-													</div>
-												</div>
 
 											</div>
 										</div>
@@ -597,7 +536,7 @@
 									<div class="block-inner">
 										<div class="icon fas fa-chart-line"></div>
 										<h3>25 YEARS REPUTATION</h3>
-										<div class="text">Phasellus convallis risus sit amet cursus vestibulum. Vestibulum vitae tristique felis. </div>
+										<div class="text">Driven by Experience, Fueled by Trust</div>
 									</div>
 								</div>
 
@@ -606,7 +545,7 @@
 									<div class="block-inner">
 										<div class="icon fas fa-cogs"></div>
 										<h3>FULL INTEGRITY</h3>
-										<div class="text">Phasellus convallis risus sit amet cursus vestibulum. Vestibulum vitae tristique felis. </div>
+										<div class="text">Your Satisfaction is Our Promise: Full Integrity, No Exceptions. </div>
 									</div>
 								</div>
 
@@ -615,7 +554,7 @@
 									<div class="block-inner">
 										<div class="icon far fa-clock"></div>
 										<h3>QUICK & EFFICIENT</h3>
-										<div class="text">Phasellus convallis risus sit amet cursus vestibulum. Vestibulum vitae tristique felis. </div>
+										<div class="text">Expert service that saves you time without compromising quality. </div>
 									</div>
 								</div>
 
@@ -636,7 +575,7 @@
 							<div class="count-box col-lg-3 col-md-6 col-sm-12">
 								<div class="inner-box">
 									<div class="icon-box"><span class="flaticon-boy-broad-smile"></span></div>
-									<span class="count-text" data-speed="2000" data-stop="6370">0</span>
+									<span class="count-text" data-speed="2000" data-stop="270">0</span>
 									<div class="counter-title"><h5>Happy Client</h5></div>
 								</div>
 							</div>
@@ -645,7 +584,7 @@
 							<div class="count-box col-lg-3 col-md-6 col-sm-12">
 								<div class="inner-box">
 									<div class="icon-box"><span class="flaticon-transport"></span></div>
-									<span class="count-text" data-speed="2000" data-stop="5504">0</span>
+									<span class="count-text" data-speed="2000" data-stop="304">0</span>
 									<div class="counter-title"><h5>SErvice Done</h5></div>
 								</div>
 							</div>
@@ -654,7 +593,7 @@
 							<div class="count-box col-lg-3 col-md-6 col-sm-12">
 								<div class="inner-box">
 									<div class="icon-box"><span class="flaticon-avatar-1"></span></div>
-									<span class="count-text" data-speed="2000" data-stop="504">0</span>
+									<span class="count-text" data-speed="2000" data-stop="34">0</span>
 									<div class="counter-title"><h5>Total Expert</h5></div>
 								</div>
 							</div>
@@ -663,7 +602,7 @@
 							<div class="count-box col-lg-3 col-md-6 col-sm-12">
 								<div class="inner-box">
 									<div class="icon-box"><span class="flaticon-car-1"></span></div>
-									<span class="count-text" data-speed="2000" data-stop="7704">0</span>
+									<span class="count-text" data-speed="2000" data-stop="442">0</span>
 									<div class="counter-title"><h5>Total Service</h5></div>
 								</div>
 							</div>
@@ -1044,7 +983,7 @@
 							<ul class="sidebar-list-style">
 								<li><span class="icon flaticon-placeholder"></span>Chicago 12, Melborne City, USA</li>
 								<li><span class="icon flaticon-phone"></span>(111) 111-111-1111</li>
-								<li><span class="icon fa fa-envelope-o"></span>Motor@gmail.com</li>
+								<li><span class="icon fa fa-envelope-o"></span>motorgarage_ir@abv.bg</li>
 								<li><span class="icon flaticon-stopwatch"></span>Week Days: 09.00 to 18.00 Sunday: Closed</li>
 							</ul>
 						</div>
