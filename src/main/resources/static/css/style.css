@@ -75,7 +75,20 @@
 	border:none;
 	outline:none;
 }
+.logout-btn {
+	background-color: #17459a;  /* Black background */
+	color: white;  /* White text */
+	border: none;  /* No border */
+	padding: 10px 20px;  /* Add some padding for better appearance */
+	cursor: pointer;  /* Change the cursor to pointer when hovering */
+	font-size: 16px;  /* Increase font size for better readability */
+	margin-top: -10px;  /* Move the button higher by 10px */
+	position: relative;  /* Allows movement with top property */
+}
 
+.logout-btn:hover {
+	background-color: #605858;  /* Darker background on hover */
+}
 /***
 
 ====================================================================
@@ -12915,7 +12928,7 @@ button:focus{
 	position:relative;
 }
 
-.footer-style-two .info-widget .info-list li{`
+.footer-style-two .info-widget .info-list li{
 	position:relative;
 	font-size:14px;
 	margin-bottom:6px;
