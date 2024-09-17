@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Visit Report</title>
+</head>
+<body>
+<h1>Visit Report</h1>
+
+<p>Hello, <strong th:text="${username}"></strong></p>
+
+<p>Thank you for visiting Vehicle Garage. Below are the details of your recent service:</p>
+
+<h2>Vehicle Information:</h2>
+<ul>
+  <li><strong>Model:</strong> <span th:text="${vehicleModel}"></span></li>
+  <li><strong>Year:</strong> <span th:text="${vehicleYear}"></span></li>
+  <li><strong>License Plate:</strong> <span th:text="${licensePlate}"></span></li>
+</ul>
+
+<h2>Services Performed:</h2>
+<ul>
+  <li th:each="service : ${services}">
+    <span th:text="${service.name}"></span>:
+    <span th:text="${service.price}"></span>
+    <span th:text="${currencyCode}"></span>
+  </li>
+</ul>
+
+<h2>Total Cost:</h2>
+<p><strong>Total:</strong> <span th:text="${totalPrice}"></span> <span th:text="${currencyCode}"></span></p>
+
+<p>If you have any further questions, feel free to contact us.</p>
+
+<p>Thank you,<br/>Vehicle Garage Team</p>
+
+</body>
+</html>

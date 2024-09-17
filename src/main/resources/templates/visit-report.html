@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Visit Report</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="container">
+  <h1>Visit Report</h1>
+
+  <h2>Customer Information</h2>
+  <p><strong>Username:</strong> <span th:text="${report.customer.username}"></span></p>
+  <p><strong>Email:</strong> <span th:text="${report.customer.email}"></span></p>
+
+  <h2>Vehicle Information</h2>
+  <p><strong>Vehicle Model:</strong> <span th:text="${report.vehicle.model}"></span></p>
+  <p><strong>Vehicle Year:</strong> <span th:text="${report.vehicle.yearOfCreation}"></span></p>
+  <p><strong>License Plate:</strong> <span th:text="${report.vehicle.licensePlate}"></span></p>
+
+  <h2>Services</h2>
+  <ul>
+    <li th:each="service : ${report.services}">
+      <span th:text="${service.name}">Service Name</span> -
+      <span th:text="${service.price}">Price</span>
+      <span th:text="${report.currencyCode}">Currency</span>
+    </li>
+  </ul>
+
+  <h3>Total Price: <span th:text="${report.totalPrice}"></span> <span th:text="${report.currencyCode}"></span></h3>
+
+  <h2>Select Currency</h2>
+  <form th:action="@{/visit/report/currency}" method="get">
+    <input type="hidden" name="visitId" th:value="${report.id}" />
+    <button type="submit" name="currencyCode" value="USD">USD</button>
+    <button type="submit" name="currency" value="GBP">GBP</button>
+    <button type="submit" name="currencyCode" value="EUR">EUR</button>
+    <button type="submit" name="currencyCode" value="BGN">BGN</button>
+  </form>
+
+  <h2>Send Report by Email</h2>
+  <form th:action="@{/visit/report/email}" method="post">
+    <input type="hidden" name="id" th:value="${report.id}" />
+    <button type="submit">Send Report to Email</button>
+  </form>
+</div>
+</body>
+</html>
